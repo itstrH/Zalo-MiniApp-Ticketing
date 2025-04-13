@@ -29,7 +29,7 @@ function HomePage() {
         // justifyContent="center"
         // alignItems="center"
       >
-        <Swiper autoplay duration={2000} loop>
+        <Swiper autoplay duration={6000} loop>
           <Swiper.Slide>
             <img
               className="slide-img"
@@ -66,6 +66,23 @@ function HomePage() {
             />
           </Swiper.Slide>
         </Swiper>
+      </Box>
+      <Text.Title size="small" className="mt-4">Sự kiện đặc biệt</Text.Title>
+      <Box flex flexDirection="row" justifyContent="center" alignItems="center" className="gap-4 px-4 py-2">
+        <Box width="45%">
+          <img
+            src="https://stc-zmp.zadn.vn/zmp-zaui/images/0f7c061caab576eb2fa45.jpg" // or your online image URL
+            alt="event-1"
+            className="rounded-xl shadow-md w-full h-auto"
+          />
+        </Box>
+        <Box width="45%">
+          <img
+            src="https://stc-zmp.zadn.vn/zmp-zaui/images/0f7c061caab576eb2fa45.jpg"
+            alt="event-2"
+            className="rounded-xl shadow-md w-full h-auto"
+          />
+        </Box>
       </Box>
 
     {/* FOOTER */}

@@ -8,6 +8,8 @@ import {
 } from "zmp-ui";
 
 import HomePage from "../pages/index";
+import Profile from "../pages/profile";
+
 
 const Layout = () => {
   return (
@@ -16,6 +18,7 @@ const Layout = () => {
         <ZMPRouter>
           <AnimationRoutes>
             <Route path="/" element={<HomePage />}></Route>
+            <Route path="/profiles" element={<Profile />}></Route>
           </AnimationRoutes>
         </ZMPRouter>
       </SnackbarProvider>
