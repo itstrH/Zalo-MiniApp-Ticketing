@@ -40,14 +40,38 @@ const Profile = () => {
           className="bg-white text-black rounded-lg"
         />
 
-        <Input
-          label="Số điện thoại"
-          value={phone}
-          type="tel"
-          onChange={(e) => setPhone(e.target.value)}
-          prefix="+84"
-          className="bg-white text-black rounded-lg"
-        />
+        <div className="flex items-center bg-white rounded-lg overflow-hidden border border-gray-300 w-full">
+          {/* Prefix dropdown */}
+          <select
+            className="bg-gray-100 px-3 py-2 outline-none text-black text-sm border-r border-gray-300"
+            defaultValue="+84"
+          >
+            <option value="+84">+84</option>
+            <option value="+1">+1</option>
+            <option value="+61">+61</option>
+            {/* Thêm mã vùng khác nếu cần */}
+          </select>
+
+          {/* Phone input */}
+          <input
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Số điện thoại"
+            className="flex-1 px-3 py-2 outline-none text-black text-sm bg-white"
+          />
+
+          {/* Clear button */}
+          {phone && (
+            <button
+              onClick={() => setPhone("")}
+              className="px-3 text-gray-500 hover:text-red-500"
+            >
+              <Icon icon="zi-close-circle" />
+            </button>
+          )}
+        </div>
+
 
         <div className="relative w-full">
           <input
