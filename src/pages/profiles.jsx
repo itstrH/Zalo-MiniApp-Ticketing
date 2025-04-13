@@ -1,107 +1,87 @@
-import { Box, Button, Icon, Page, Text, Swiper, Header, BottomNavigation } from "zmp-ui";
-import React, { useState } from "react";
-import bg from "../static/bg.svg";
+import { useState } from "react";
+import { Page, Input, Button, Icon, Radio } from "zmp-ui";
 
-function profiles() {
-  const [activeTab, setActiveTab] = useState("chat");
-
-  const events = [
-    {
-      image: "https://cdnv2.tgdd.vn/mwg-static/common/News/1575648/hinh-nen-dien-thoai-cute-29-2-1.jpg",
-      title: "Lễ hội Mùa Xuân",
-      description: "Văn hóa & truyền thống",
-    },
-    {
-      image: "https://cdn.tgdd.vn/Files/2022/06/27/1443330/hinh-nen-meo-cute-1.jpg",
-      title: "Live Show",
-      description: "Âm nhạc & ánh sáng",
-    },
-    {
-      image: "https://cdn.tgdd.vn/Files/2021/12/10/1403861/hinh-nen-thien-nhien-27.jpg",
-      title: "Triển lãm",
-      description: "Nghệ thuật sáng tạo",
-    },
-    {
-      image: "https://cdn.tgdd.vn/Files/2021/08/31/1379760/hinh-nen-may-tinh-13.jpg",
-      title: "Chợ đêm",
-      description: "Ẩm thực & quà tặng",
-    },
-    {
-      image: "https://cdn.tgdd.vn/Files/2022/10/19/1479962/hinh-nen-thien-nhien-1.jpg",
-      title: "Workshop Vẽ",
-      description: "Thư giãn cuối tuần",
-    },
-  ];
+const Profile = () => {
+  const [fullName, setFullName] = useState("Khoa Nguyen");
+  const [phone, setPhone] = useState("364923127");
+  const [email] = useState("khoa95905@gmail.com");
+  const [dob, setDob] = useState("2004-09-19");
+  const [gender, setGender] = useState("male");
 
   return (
-    <Page
-      className="flex flex-col items-center justify-center bg-white dark:bg-black"
-      style={{ backgroundImage: `url(${bg})`, backgroundSize: "cover" }}
-    >
+    <Page className="bg-black text-white p-4">
       {/* Header */}
-      <Header title="Za Ticketing" />
+      <div className="flex items-center mb-4">
+        <Icon icon="zi-arrow-left" className="text-white mr-2" />
+        <h1 className="text-lg font-semibold">Trang chủ</h1>
+      </div>
 
-      {/* Swiper */}
-      <Text.Title size="small" className="mt-4 px-4">Sự kiện sắp diễn ra</Text.Title>
-      <Box className="w-full px-4 mt-2">
-        <Swiper autoplay duration={6000} loop>
-          {[
-            "https://stc-zmp.zadn.vn/zmp-zaui/images/0e05d63a7a93a6cdff826.jpg",
-            "https://stc-zmp.zadn.vn/zmp-zaui/images/0f7c061caab576eb2fa45.jpg",
-            "https://stc-zmp.zadn.vn/zmp-zaui/images/321fb45f18f6c4a89de78.jpg",
-            "https://stc-zmp.zadn.vn/zmp-zaui/images/4f417921d58809d650997.jpg",
-            "https://stc-zmp.zadn.vn/zmp-zaui/images/677fad2e0187ddd984969.jpg",
-          ].map((img, idx) => (
-            <Swiper.Slide key={idx}>
-              <img src={img} alt={`slide-${idx}`} className="w-full rounded-xl shadow-md object-cover" />
-            </Swiper.Slide>
-          ))}
-        </Swiper>
-      </Box>
+      {/* Avatar */}
+      <div className="flex flex-col items-center mb-6 mt-4">
+        <img
+          src="https://stickerly.pstatic.net/sticker_pack/U3aXydx2H5IoEo8tNI2KZg/M1FGFV/6/3b48c3cc-69d1-4c28-81ec-2a99b86769de.png"
+          alt="avatar"
+          className="w-24 h-24 rounded-full mb-2"
+        />
+        <div className="bg-green-500 p-1 rounded-full -mt-6 ml-16">
+          <Icon icon="zi-camera" className="text-white text-xs" />
+        </div>
+        <p className="text-center mt-2 text-sm text-white px-4">
+          Cung cấp thông tin chính xác sẽ hỗ trợ bạn trong quá trình mua vé, hoặc khi cần xác thực vé
+        </p>
+      </div>
 
-      {/* Sự kiện đặc biệt */}
-      <Text.Title size="small" className="mt-6 px-4">Sự kiện đặc biệt</Text.Title>
-      <Box
-        className="flex overflow-x-auto gap-4 px-4 py-4 w-full"
-        style={{ WebkitOverflowScrolling: 'touch' }}
-      >
-        {events.map((event, idx) => (
-          <Box
-            key={idx}
-            className="min-w-[140px] max-w-[160px] bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden flex-shrink-0"
-          >
-            <img src={event.image} alt={`event-${idx}`} className="w-full h-[200px] object-cover" />
-            <Box className="p-2">
-              <Text.Title size="xSmall" className="truncate">{event.title}</Text.Title>
-              <Text className="text-xs text-gray-500">{event.description}</Text>
-            </Box>
-          </Box>
-        ))}
-      </Box>
+      {/* Form */}
+      <div className="space-y-4">
+        <Input
+          label="Họ và tên"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          className="bg-white text-black rounded-lg"
+        />
 
-      {/* Bottom Navigation */}
-      <BottomNavigation fixed activeKey={activeTab} onChange={(key) => setActiveTab(key)}>
-        <BottomNavigation.Item
-          key="chat"
-          label="Trang chủ"
-          icon={<Icon icon="zi-home" />}
-          activeIcon={<Icon icon="zi-home" />}
+        <Input
+          label="Số điện thoại"
+          value={phone}
+          type="tel"
+          onChange={(e) => setPhone(e.target.value)}
+          prefix="+84"
+          className="bg-white text-black rounded-lg"
         />
-        <BottomNavigation.Item
-          key="contact"
-          label="Vé của tôi"
-          icon={<Icon icon="zi-ticket" />}
-          activeIcon={<Icon icon="zi-ticket" />}
+
+        <Input
+          label="Email"
+          type="email"
+          value={email}
+          disabled
+          suffix={<Icon icon="zi-check-circle-solid" className="text-green-500" />}
+          className="bg-white text-black rounded-lg disabled:bg-white disabled:text-black"
         />
-        <BottomNavigation.Item
-          key="me"
-          label="Cá nhân"
-          icon={<Icon icon="zi-user" />}
-          activeIcon={<Icon icon="zi-user" />}
+
+        <Input
+          label="Ngày tháng năm sinh"
+          type="date"
+          value={dob}
+          onChange={(e) => setDob(e.target.value)}
+          className="bg-white text-black rounded-lg"
         />
-      </BottomNavigation>
+
+        {/* Gender Selection */}
+        <div className="">
+        <Radio.Group value={gender} onChange={setGender} className="text-white space-x-4">
+          <Radio value="male">Nam</Radio>
+          <Radio value="female">Nữ</Radio>
+          <Radio value="other">Khác</Radio>
+        </Radio.Group>
+      </div>
+      </div>
+
+      {/* Submit Button */}
+      <Button className="mt-8 w-full bg-green-500 text-white font-semibold rounded-full">
+        Hoàn thành
+      </Button>
     </Page>
   );
-}
+};
 
-export default profiles;
+export default Profile;
