@@ -25,25 +25,25 @@ function HomePage() {
     },
     {
       image:
-        "https://cdn.tgdd.vn/Files/2022/06/27/1443330/hinh-nen-meo-cute-1.jpg",
+        "https://colormedia.vn/public/upload/900x603-01-01.jpg",
       title: "Live Show",
       description: "Âm nhạc & ánh sáng",
     },
     {
       image:
-        "https://cdn.tgdd.vn/Files/2021/12/10/1403861/hinh-nen-thien-nhien-27.jpg",
+        "https://m.media-amazon.com/images/I/718uJjv4oCS._AC_SL1024_.jpg",
       title: "Triển lãm",
       description: "Nghệ thuật sáng tạo",
     },
     {
       image:
-        "https://cdn.tgdd.vn/Files/2021/08/31/1379760/hinh-nen-may-tinh-13.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ilDDWQQo4vvREneYYM7S3YRlEB7J-aP3wQ&s",
       title: "Chợ đêm",
       description: "Ẩm thực & quà tặng",
     },
     {
       image:
-        "https://cdn.tgdd.vn/Files/2022/10/19/1479962/hinh-nen-thien-nhien-1.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV-3ieshvT6Z91CfEJyojeLzwwHW5jYrR3j-I5FnSGgQQ29kcE21bBWU2SKkFkVEdM0VA&usqp=CAU",
       title: "Workshop Vẽ",
       description: "Thư giãn cuối tuần",
     },
@@ -51,6 +51,13 @@ function HomePage() {
 
   const handleEventClick = (event) => {
     navigate("/event-detail", { state: { event } });
+  };
+
+  const handleTabChange = (key) => {
+    setActiveTab(key);
+    if (key === "chat") navigate("/");
+    if (key === "contact") navigate("/ticket");
+    if (key === "me") navigate("/profiles");
   };
 
   return (
@@ -61,7 +68,7 @@ function HomePage() {
         backgroundSize: "cover",
       }}
     >
-      <Header title="Za Ticketing" />
+      <Header title="Za Ticketing" back={false} /> {/* Triệt tiêu nút back */}
 
       {/* Swiper */}
       <Text.Title size="small" className="mt-4 px-4">
@@ -69,21 +76,41 @@ function HomePage() {
       </Text.Title>
       <Box className="w-full px-4 mt-2">
         <Swiper autoplay duration={6000} loop>
-          {[
-            "https://stc-zmp.zadn.vn/zmp-zaui/images/0e05d63a7a93a6cdff826.jpg",
-            "https://stc-zmp.zadn.vn/zmp-zaui/images/0f7c061caab576eb2fa45.jpg",
-            "https://stc-zmp.zadn.vn/zmp-zaui/images/321fb45f18f6c4a89de78.jpg",
-            "https://stc-zmp.zadn.vn/zmp-zaui/images/4f417921d58809d650997.jpg",
-            "https://stc-zmp.zadn.vn/zmp-zaui/images/677fad2e0187ddd984969.jpg",
-          ].map((img, idx) => (
-            <Swiper.Slide key={idx}>
-              <img
-                src={img}
-                alt={`slide-${idx}`}
-                className="w-full rounded-xl shadow-md object-cover"
-              />
-            </Swiper.Slide>
-          ))}
+          <Swiper.Slide>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIua6n4qFRNvrX94_b3yyb04wROOxNdkeAkQ&s"
+              alt="slide-1"
+              className="w-full rounded-xl shadow-md object-cover"
+            />
+          </Swiper.Slide>
+          <Swiper.Slide>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIua6n4qFRNvrX94_b3yyb04wROOxNdkeAkQ&s"
+              alt="slide-2"
+              className="w-full rounded-xl shadow-md object-cover"
+            />
+          </Swiper.Slide>
+          <Swiper.Slide>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIua6n4qFRNvrX94_b3yyb04wROOxNdkeAkQ&s"
+              alt="slide-3"
+              className="w-full rounded-xl shadow-md object-cover"
+            />
+          </Swiper.Slide>
+          <Swiper.Slide>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIua6n4qFRNvrX94_b3yyb04wROOxNdkeAkQ&s"
+              alt="slide-4"
+              className="w-full rounded-xl shadow-md object-cover"
+            />
+          </Swiper.Slide>
+          <Swiper.Slide>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIua6n4qFRNvrX94_b3yyb04wROOxNdkeAkQ&s"
+              alt="slide-5"
+              className="w-full rounded-xl shadow-md object-cover"
+            />
+          </Swiper.Slide>
         </Swiper>
       </Box>
 
@@ -110,9 +137,7 @@ function HomePage() {
               <Text.Title size="xSmall" className="truncate">
                 {event.title}
               </Text.Title>
-              <Text className="text-xs text-gray-500">
-                {event.description}
-              </Text>
+              <Text className="text-xs text-gray-500">{event.description}</Text>
             </Box>
           </Box>
         ))}
@@ -122,43 +147,27 @@ function HomePage() {
       <BottomNavigation
         fixed
         activeKey={activeTab}
-        onChange={(key) => setActiveTab(key)}
+        onChange={handleTabChange}
       >
         <BottomNavigation.Item
           key="chat"
           label="Trang chủ"
-          icon={
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-  <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-</svg>
-
-          }
-          activeIcon={
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-  <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-</svg>
-
-          }
+          icon={<Icon name="home" />}
+          activeIcon={<Icon name="home" />}
         />
         <BottomNavigation.Item
           key="contact"
           label="Vé của tôi"
-          icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
-        </svg>
-        }
-          activeIcon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
-        </svg>
-        }
+          icon={<Icon name="ticket" />}
+          activeIcon={<Icon name="ticket" />}
         />
         <BottomNavigation.Item
           key="me"
           label="Cá nhân"
           icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-</svg>
-}
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+              }
           activeIcon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
         </svg>}

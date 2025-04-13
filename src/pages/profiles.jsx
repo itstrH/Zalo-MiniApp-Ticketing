@@ -1,18 +1,25 @@
 import { useState } from "react";
 import { Page, Input, Button, Icon, Radio } from "zmp-ui";
+import { useNavigate } from "react-router-dom";  // Import useNavigate
 
 const Profile = () => {
+  const navigate = useNavigate();  // Khởi tạo hook useNavigate
   const [fullName, setFullName] = useState("Khoa Nguyen");
   const [phone, setPhone] = useState("364923127");
   const [email] = useState("khoa95905@gmail.com");
   const [dob, setDob] = useState("2004-09-19");
   const [gender, setGender] = useState("male");
+  const [countryCode, setCountryCode] = useState("+84");
 
   return (
     <Page className="bg-black text-white p-4">
-      {/* Header */}
+      {/* Header with back button */}
       <div className="flex items-center mb-4">
-        <Icon icon="zi-arrow-left" className="text-white mr-2" />
+        <Icon
+          icon="zi-arrow-left"
+          className="text-white mr-2 cursor-pointer"
+          onClick={() => navigate("/")}  // Điều hướng về trang index (hoặc trang chủ)
+        />
         <h1 className="text-lg font-semibold">Trang chủ</h1>
       </div>
 
@@ -40,11 +47,13 @@ const Profile = () => {
           className="bg-white text-black rounded-lg"
         />
 
+        {/* Phone input with prefix */}
         <div className="flex items-center bg-white rounded-lg overflow-hidden border border-gray-300 w-full">
           {/* Prefix dropdown */}
           <select
             className="bg-gray-100 px-3 py-2 outline-none text-black text-sm border-r border-gray-300"
-            defaultValue="+84"
+            value={countryCode}
+            onChange={(e) => setCountryCode(e.target.value)}
           >
             <option value="+84">+84</option>
             <option value="+1">+1</option>
@@ -72,7 +81,7 @@ const Profile = () => {
           )}
         </div>
 
-
+        {/* Email input */}
         <div className="relative w-full">
           <input
             type="email"
@@ -85,9 +94,7 @@ const Profile = () => {
           </span>
         </div>
 
-
-
-
+        {/* Date of Birth input */}
         <Input
           label="Ngày tháng năm sinh"
           type="date"
@@ -97,13 +104,13 @@ const Profile = () => {
         />
 
         {/* Gender Selection */}
-        <div className="">
-        <Radio.Group value={gender} onChange={setGender} className="text-white space-x-4">
-          <Radio value="male">Nam</Radio>
-          <Radio value="female">Nữ</Radio>
-          <Radio value="other">Khác</Radio>
-        </Radio.Group>
-      </div>
+        <div className="mt-4">
+          <Radio.Group value={gender} onChange={setGender} className="text-white space-x-4">
+            <Radio value="male">Nam</Radio>
+            <Radio value="female">Nữ</Radio>
+            <Radio value="other">Khác</Radio>
+          </Radio.Group>
+        </div>
       </div>
 
       {/* Submit Button */}
