@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import HomePage from "../pages/index";
 import Profile from "../pages/profiles";
 import Ticket from "../pages/ticket";
+import EventDetail from "../components/EventDetail"; 
 
 const Layout = () => {
   const [theme, setTheme] = useState("light"); // fallback default
@@ -34,6 +35,7 @@ const Layout = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/profiles" element={<Profile />} />
             <Route path="/ticket" element={<Ticket />} />
+            <Route path="/event-detail" element={<EventDetail />} />
           </AnimationRoutes>
         </ZMPRouter>
       </SnackbarProvider>
