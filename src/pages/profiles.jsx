@@ -19,7 +19,7 @@ const Profile = () => {
       {/* Avatar */}
       <div className="flex flex-col items-center mb-6 mt-4">
         <img
-          src="https://stickerly.pstatic.net/sticker_pack/U3aXydx2H5IoEo8tNI2KZg/M1FGFV/6/3b48c3cc-69d1-4c28-81ec-2a99b86769de.png"
+          src="https://i.pinimg.com/736x/b4/bb/b2/b4bbb2198b036fe1024571ec6b60f8b8.jpg"
           alt="avatar"
           className="w-24 h-24 rounded-full mb-2"
         />
@@ -49,14 +49,20 @@ const Profile = () => {
           className="bg-white text-black rounded-lg"
         />
 
-        <Input
-          label="Email"
-          type="email"
-          value={email}
-          disabled
-          suffix={<Icon icon="zi-check-circle-solid" className="text-green-500" />}
-          className="bg-white text-black rounded-lg disabled:bg-white disabled:text-black"
-        />
+        <div className="relative w-full">
+          <input
+            type="email"
+            value={email}
+            disabled
+            className="w-full px-4 pr-10 py-3 rounded-lg bg-white text-black border border-gray-300 disabled:bg-white disabled:text-black"
+          />
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-green-500 text-xl pointer-events-none">
+            <Icon icon="zi-check-circle-solid" />
+          </span>
+        </div>
+
+
+
 
         <Input
           label="Ngày tháng năm sinh"
