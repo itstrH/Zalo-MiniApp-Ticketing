@@ -14,17 +14,21 @@ import Ticket from "../pages/ticket";
 import EventDetail from "../components/EventDetail"; 
 
 const Layout = () => {
-  const [theme, setTheme] = useState("light"); // fallback default
+  const [theme, setTheme] = useState("light"); // fallback default theme
 
   useEffect(() => {
-    try {
-      const info = getSystemInfo();
-      if (info?.zaloTheme) {
-        setTheme(info.zaloTheme);
+    const fetchSystemInfo = async () => {
+      try {
+        const info = await getSystemInfo();
+        if (info?.zaloTheme) {
+          setTheme(info.zaloTheme);
+        }
+      } catch (error) {
+        console.error("Error getting system info:", error);
       }
-    } catch (error) {
-      console.error("Error getting system info:", error);
-    }
+    };
+
+    fetchSystemInfo();
   }, []);
 
   return (
