@@ -8,7 +8,7 @@ import {
 } from "zmp-ui";
 
 import HomePage from "../pages/index";
-import Profile from "../pages/profile";
+import Profile from "../pages/profiles";
 
 
 const Layout = () => {
