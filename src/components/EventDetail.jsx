@@ -10,7 +10,7 @@ const EventDetail = () => {
     return (
       <Page className="bg-white dark:bg-black">
         <Box className="p-4">
-          <Text size="large" className="text-center">
+          <Text size="large" className="text-center text-red-500">
             Không tìm thấy dữ liệu sự kiện.
           </Text>
         </Box>
