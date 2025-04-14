@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Ticket = () => {
   const [activeTab, setActiveTab] = useState("upcoming");
-  const navigate = useNavigate();  // Hook để điều hướng
+  const navigate = useNavigate();  // hook de navigate
 
   const EmptyState = () => (
     <Box className="flex flex-col items-center justify-center py-12 space-y-4">
@@ -23,12 +23,11 @@ const Ticket = () => {
 
   return (
     <Page className="bg-white dark:bg-black">
-      {/* Nút back */}
       <Box className="px-4 pt-4 flex items-center">
         <Icon
           icon="zi-arrow-left"
           className="text-black dark:text-white mr-2 cursor-pointer"
-          onClick={() => navigate("/")}  // Điều hướng về trang chủ
+          onClick={() => navigate("/")}  
         />
         <Text.Title className="text-lg">Vé của tôi</Text.Title>
       </Box>
