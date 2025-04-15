@@ -86,11 +86,14 @@ function HomePage() {
               className="w-full h-[150px] object-cover"
               />
               <Box className="p-2">
-                <Text.Title size="xSmall" className="truncate">
+                <Text.Title size="xSmall" className="px-1 truncate">
                   {event.event_name}
                 </Text.Title>
-                <Text className="text-sm text-gray-500 truncate">
+                <Text className="px-1 text-sm text-gray-500 truncate font-bold">
                   {new Date(event.event_date).toLocaleDateString()}
+                </Text>
+                <Text className="px-1 text-base text-gray-500 mb-2 truncate">
+                  {event.event_time}
                 </Text>
               </Box>
           </Box>
@@ -101,9 +104,7 @@ function HomePage() {
       <Text.Title size="normal" className="mt-2 px-4">
           <span role="img" aria-label="fire">🔥</span> Sự kiện xu hướng
       </Text.Title>
-      <Box
-          className="flex overflow-x-auto gap-6 px-4 w-full"
-      >
+      <Box className="flex overflow-x-auto gap-6 px-4 w-full">
         {events.map((event, idx) => (
           <Box
             key={idx}
@@ -115,11 +116,14 @@ function HomePage() {
               className="w-full h-[150px] object-cover"
             />
             <Box className="p-2">
-              <Text.Title size="xSmall" className="truncate">
-                {event.event_name}
+              <Text.Title size="xSmall" className="px-1 truncate">
+                  {event.event_name}
               </Text.Title>
-              <Text className="text-sm text-gray-500 truncate">
+              <Text className="px-1 text-sm text-gray-500 truncate font-bold">
                 {new Date(event.event_date).toLocaleDateString()}
+              </Text>
+              <Text className="px-1 text-base text-gray-500 mb-2 truncate">
+                {event.event_time}
               </Text>
             </Box>
           </Box>
