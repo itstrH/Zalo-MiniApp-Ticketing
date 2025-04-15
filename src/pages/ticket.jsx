@@ -3,9 +3,10 @@ import { Box, Page, Tabs, Text, Button, Icon } from "zmp-ui";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Ticket = () => {
+
+function Ticket() {
   const [activeTab, setActiveTab] = useState("upcoming");
-  const navigate = useNavigate();  // hook de navigate
+  const navigate = useNavigate();  // hook 
 
   const EmptyState = () => (
     <Box className="flex flex-col items-center justify-center py-12 space-y-4">

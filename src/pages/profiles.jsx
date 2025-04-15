@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Page, Input, Button, Icon, Radio } from "zmp-ui";
 import { useNavigate } from "react-router-dom";  
 
-const Profile = () => {
+function Profile() {
   const navigate = useNavigate();  
   const [fullName, setFullName] = useState("Khoa Nguyen");
   const [phone, setPhone] = useState("364923127");
