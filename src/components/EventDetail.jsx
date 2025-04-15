@@ -21,7 +21,6 @@ const EventDetail = () => {
         //     setLoading(false);
         //     return;
         // }
-
         setLoading(true);
         setError(null);
 
