@@ -12,7 +12,7 @@ import bg from "../static/bg.svg";
 import axios from "axios";
 
 function HomePage() {
-  const [activeTab, setActiveTab] = useState("chat");
+  const [activeTab, setActiveTab] = useState("home");
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ function HomePage() {
         <Box className="w-full px-4">
           <Swiper autoplay duration={5000} loop>
             {events.slice(0, 5).map((event, idx) => (
-              <Swiper.Slide key={idx}>
+              <Swiper.Slide key={idx} onClick={() => handleEventClick(event)}>
                 <img
                 src={event.banner_url}
                 className="w-full rounded-xl shadow-md object-cover h-[200px]"
