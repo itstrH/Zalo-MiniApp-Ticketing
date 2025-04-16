@@ -1,7 +1,7 @@
 import { Page, Header, Box, Text, Button } from "zmp-ui";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import BuyTicketPage from "./BuyTicketPage";
+// import BuyTicketPage from "./BuyTicketPage";
 import axios from 'axios';
 
 const EventDetail = () => {

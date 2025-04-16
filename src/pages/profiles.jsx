@@ -103,7 +103,9 @@ function Profile() {
       </div>
 
       {/* submit btn */}
-      <Button className="mt-8 w-full bg-green-500 text-white font-semibold rounded-full">
+      <Button className="mt-8 w-full bg-green-500 text-white font-semibold rounded-full"
+              onClick={() => navigate("/")}
+      >
         Hoàn thành
       </Button>
     </Page>
