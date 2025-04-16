@@ -48,7 +48,7 @@ function HomePage() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Header title="Za Ticketing" className="bg-green-400" back={false} />
+      <Header title="Za Ticketing" className="bg-green-400"/>
 
       <Box className="flex flex-col gap-8 pt-2 pb-20">
         {/* swiper Sự kiện sắp diễn ra */}

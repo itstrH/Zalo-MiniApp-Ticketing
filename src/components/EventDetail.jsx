@@ -1,26 +1,20 @@
 import { Page, Header, Box, Text, Button } from "zmp-ui";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import BuyTicketModal from "./buyTicketModal";
+import BuyTicketPage from "./BuyTicketPage";
 import axios from 'axios';
 
 const EventDetail = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const eventId = location.state.eventId;
+    const eventId = location?.state?.eventId;
 
     const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isOpenModal, setIsOpenModal] = useState(false);
     const [ticketPrice, setTicketPrice] = useState(0);
 
     useEffect(() => {
-        // if (!eventId) {
-        //     setError("Không có eventId");
-        //     setLoading(false);
-        //     return;
-        // }
         setLoading(true);
         setError(null);
 
@@ -42,16 +36,19 @@ const EventDetail = () => {
     }, [eventId]);
 
     if (loading) {
-        return (<Text>Đang tải chi tiết sự kiện...</Text>);
+        return (<Box className="flex items-center justify-center h-screen"><Text className="text-base font-bold">Đang tải chi tiết sự kiện...</Text></Box>);  
     }
 
     if (!event) {
-        return (<Text>Không tìm thấy sự kiện</Text>);
+        return (<Box className="flex items-center justify-center h-screen flex-col">
+                    <Text className="text-base font-bold mb-4">Không tìm thấy sự kiện</Text>
+                    <Button onClick={() => navigate("/")}>Quay lại</Button>
+                </Box>);
     }
 
     return (
         <Page className="bg-white">
-            <Header title="Chi tiết sự kiện" back={() => navigate(-1)} />
+            <Header title="Chi tiết sự kiện" back={() => navigate("/")} />
             <Box className="p-4 pt-20">
                 <img
                     src={event.banner_url}
@@ -83,15 +80,11 @@ const EventDetail = () => {
 
                 <Button
                     className="w-full bg-green-500 text-white rounded-full mt-4"
-                    onClick={() => setIsOpenModal(true)}
+                    onClick={() => navigate("/buy-ticket", { state: { eventId: event.event_id } })}
                 >
                     Mua vé ngay
                 </Button>
             </Box>
-
-
-            {isOpenModal && <BuyTicketModal visible={isOpenModal} onClose={() => setIsOpenModal(false)} event={event} />}
-
 
         </Page>
     );
