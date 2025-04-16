@@ -8,25 +8,43 @@ import {
 } from "zmp-ui";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import bg from "../static/bg.svg";
+import bg from "../static/solid_white.jpg";
 import axios from "axios";
 
 function HomePage() {
   const [activeTab, setActiveTab] = useState("home");
-  const [events, setEvents] = useState([]);
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [hotEvents, setHotEvents] = useState([]);
   const navigate = useNavigate();
 
    // call API khi load trang
    useEffect(() => {
+    // sap dien ra
     axios
       .get("http://localhost:3001/api/events")
       .then((res) => {
-        setEvents(res.data);
+        setUpcomingEvents(res.data);
       })
       .catch((err) => {
         console.error("Lỗi lấy danh sách sự kiện:", err);
       });
-  }, []);
+
+
+    // hot events 
+    axios
+      .get("http://localhost:3001/api/hot-events")
+      .then((res) => {
+        setHotEvents(res.data);
+      })
+      .catch((err) => {
+        console.error("Lỗi lấy danh sách hot event:", err);
+      });
+
+  }, []
+
+  
+
+  );
 
   const handleEventClick = (event) => {
     navigate("/event-detail", { state: { eventId: event.event_id } });
@@ -51,14 +69,14 @@ function HomePage() {
       <Header title="Za Ticketing" className="bg-green-400"/>
 
       <Box className="flex flex-col gap-8 pt-2 pb-20">
-        {/* swiper Sự kiện sắp diễn ra */}
+        {/* swiper */}
         <Text.Title size="normal" className="mt-4 px-4">
           Sự kiện sắp diễn ra
         </Text.Title>
         <Box className="w-full px-2">
           <Swiper autoplay duration={5000} loop className="!rounded-none">
-            {events.slice(0, 5).map((event, idx) => (
-              <Swiper.Slide key={idx} onClick={() => handleEventClick(event)}>
+            {upcomingEvents.slice(0, 5).map((event) => (
+              <Swiper.Slide key = {event.event_id} onClick={() => handleEventClick(event)}>
                 <img
                 src={event.banner_url}
                 className="w-full shadow-md object-cover h-[200px]"
@@ -75,7 +93,7 @@ function HomePage() {
         <Box
           className="flex overflow-x-auto gap-6 px-4 w-full"   
         >
-          {events.map((event) => (
+          {upcomingEvents.slice(2, 10).map((event) => (
             <Box
               key = {event.event_id}
               onClick={() => handleEventClick(event)}
@@ -105,7 +123,7 @@ function HomePage() {
           <span role="img" aria-label="fire">🔥</span> Sự kiện xu hướng
       </Text.Title>
       <Box className="flex overflow-x-auto gap-6 px-4 w-full">
-        {events.map((event) => (
+        {hotEvents.slice(0, 5).map((event) => (
           <Box
             key={event.event_id}
             onClick={() => handleEventClick(event)}
