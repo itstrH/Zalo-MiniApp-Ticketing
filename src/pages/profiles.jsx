@@ -17,12 +17,11 @@ function Profile() {
         <Icon
           icon="zi-arrow-left"
           className="text-white mr-2 cursor-pointer"
-          onClick={() => navigate("/")}  // ve trang chu
+          onClick={() => navigate("/")} 
         />
         <h1 className="text-lg font-semibold">Trang chủ</h1>
       </div>
-
-      {/* profile pic */}
+      
       <div className="flex flex-col items-center mb-6 mt-4">
         <img
           src="https://i.pinimg.com/736x/b4/bb/b2/b4bbb2198b036fe1024571ec6b60f8b8.jpg"

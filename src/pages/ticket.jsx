@@ -1,4 +1,4 @@
-import { Box, Page, Text, Button, Icon } from "zmp-ui";
+import { Box, Page, Text, Button, Icon, Modal, Header } from "zmp-ui";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,6 +6,7 @@ import axios from "axios";
 function Ticket() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showQR, setShowQR] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,12 +37,9 @@ function Ticket() {
 
   return (
     <Page className="bg-white dark:bg-black">
-      <Box className="px-4 pt-4 flex items-center">
-        <Icon icon="zi-arrow-left" className="mr-2" onClick={() => navigate("/")} />
-        <Text.Title className="text-lg">Vé của tôi</Text.Title>
-      </Box>
+      <Header title="Vé của tôi" back={() => navigate("/")} />
 
-      <Box className="p-4">
+      <Box className="pt-16">
         {loading ? (
           <Text>Đang tải...</Text>
         ) : bookings.length === 0 ? (
@@ -53,11 +51,31 @@ function Ticket() {
               <Text>Ngày: {new Date(ticket.event_date).toLocaleDateString()}</Text>
               <Text>Địa điểm: {ticket.event_location}</Text>
               <Text>Số lượng: {ticket.quantity}</Text>
-              <Text>Đặt ngày: {new Date(ticket.booking_date).toLocaleDateString()}</Text>
+              <Text>Ngày đặt: {new Date(ticket.booking_date).toLocaleDateString()}</Text>
+              <Button className="mt-2" onClick={setShowQR(true)}>
+                Xem vé điện tử
+              </Button>
+              {/* <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${ticket.booking_id}&amp;size=100x100`}/> */}
             </Box>
           ))
         )}
       </Box>
+
+{/* Modal QR */}
+      <Modal
+        visible={showQR}
+        onClose={() => setShowQR(false)}
+        title="Vé điện tử"
+        description={ticket.name}
+      >
+        <div className="flex justify-center py-6">
+          <img
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${ticket.id}`}
+            alt="QR Code"
+            className="rounded"
+          />
+        </div>
+      </Modal>
     </Page>
   );
 }
