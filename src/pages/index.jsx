@@ -48,20 +48,20 @@ function HomePage() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Header title="Za Ticketing" className="bg-green-400" back={false} />
+      <Header title="Za Ticketing" className="bg-green-400"/>
 
       <Box className="flex flex-col gap-8 pt-2 pb-20">
         {/* swiper Sự kiện sắp diễn ra */}
         <Text.Title size="normal" className="mt-4 px-4">
           Sự kiện sắp diễn ra
         </Text.Title>
-        <Box className="w-full px-4">
-          <Swiper autoplay duration={5000} loop>
+        <Box className="w-full px-2">
+          <Swiper autoplay duration={5000} loop className="!rounded-none">
             {events.slice(0, 5).map((event, idx) => (
               <Swiper.Slide key={idx} onClick={() => handleEventClick(event)}>
                 <img
                 src={event.banner_url}
-                className="w-full rounded-xl shadow-md object-cover h-[200px]"
+                className="w-full shadow-md object-cover h-[200px]"
                 />
               </Swiper.Slide>
             ))}
@@ -75,9 +75,9 @@ function HomePage() {
         <Box
           className="flex overflow-x-auto gap-6 px-4 w-full"   
         >
-          {events.map((event, idx) => (
+          {events.map((event) => (
             <Box
-              key={idx}
+              key = {event.event_id}
               onClick={() => handleEventClick(event)}
               className="min-w-[140px] w-[260px] bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden flex-shrink-0 transition-transform hover:scale-105 cursor-pointer"
             >
@@ -105,9 +105,9 @@ function HomePage() {
           <span role="img" aria-label="fire">🔥</span> Sự kiện xu hướng
       </Text.Title>
       <Box className="flex overflow-x-auto gap-6 px-4 w-full">
-        {events.map((event, idx) => (
+        {events.map((event) => (
           <Box
-            key={idx}
+            key={event.event_id}
             onClick={() => handleEventClick(event)}
             className="min-w-[140px] w-[260px] bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden flex-shrink-0 transition-transform hover:scale-105 cursor-pointer"
           >

@@ -28,10 +28,7 @@ function Profile() {
           src="https://i.pinimg.com/736x/b4/bb/b2/b4bbb2198b036fe1024571ec6b60f8b8.jpg"
           alt="avatar"
           className="w-24 h-24 rounded-full mb-2"
-        />
-        <div className="bg-green-500 p-1 rounded-full -mt-6 ml-16">
-          <Icon icon="zi-camera" className="text-white text-xs" />
-        </div>
+        />  
         <p className="text-center mt-2 text-sm text-white px-4">
           Cung cấp thông tin chính xác sẽ hỗ trợ bạn trong quá trình mua vé, hoặc khi cần xác thực vé
         </p>
@@ -46,9 +43,7 @@ function Profile() {
           className="bg-white text-black rounded-lg"
         />
 
-        {/* Input SDT */}
         <div className="flex items-center bg-white rounded-lg overflow-hidden border border-gray-300 w-full">
-          {/* chọn tiền tố sdt */}
           <select
             className="bg-gray-100 px-3 py-2 outline-none text-black text-sm border-r border-gray-300"
             value={countryCode}
@@ -57,10 +52,8 @@ function Profile() {
             <option value="+84">+84</option>
             <option value="+1">+1</option>
             <option value="+61">+61</option>
-            {/* thêm mã vùng khác */}
           </select>
 
-          {/* Phone input */}
           <input
             type="tel"
             value={phone}
@@ -69,7 +62,6 @@ function Profile() {
             className="flex-1 px-3 py-2 outline-none text-black text-sm bg-white"
           />
 
-          {/* Clear button */}
           {phone && (
             <button
               onClick={() => setPhone("")}
@@ -80,7 +72,6 @@ function Profile() {
           )}
         </div>
 
-        {/* Email input */}
         <div className="relative w-full">
           <input
             type="email"
