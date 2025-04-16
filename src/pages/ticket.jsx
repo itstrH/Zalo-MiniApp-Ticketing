@@ -7,7 +7,10 @@ function Ticket() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showQR, setShowQR] = useState(false)
+  const [selectedTicket, setSelectedTicket] = useState(null);
   const navigate = useNavigate();
+
+
 
   useEffect(() => {
     axios.get("http://localhost:3001/api/bookings")
@@ -52,7 +55,13 @@ function Ticket() {
               <Text>Địa điểm: {ticket.event_location}</Text>
               <Text>Số lượng: {ticket.quantity}</Text>
               <Text>Ngày đặt: {new Date(ticket.booking_date).toLocaleDateString()}</Text>
-              <Button className="mt-2" onClick={setShowQR(true)}>
+              <Button
+                className="mt-2"
+                onClick={() => {
+                  setSelectedTicket(ticket); // Lưu vé được chọn
+                  setShowQR(true); // Mở modal
+                }}
+              >
                 Xem vé điện tử
               </Button>
               {/* <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${ticket.booking_id}&amp;size=100x100`}/> */}
@@ -61,19 +70,26 @@ function Ticket() {
         )}
       </Box>
 
-{/* Modal QR */}
+      {/* Modal QR */}
       <Modal
         visible={showQR}
-        onClose={() => setShowQR(false)}
+        onClose={() => {
+          setShowQR(false);
+          setSelectedTicket(null); // Xóa vé được chọn khi đóng modal
+        }}
         title="Vé điện tử"
-        description={ticket.name}
+        description={selectedTicket ? selectedTicket.event_name :""}
       >
         <div className="flex justify-center py-6">
-          <img
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${ticket.id}`}
-            alt="QR Code"
-            className="rounded"
-          />
+          {selectedTicket && (
+            <img
+              src={`https://api.qrserver.com/v1/create-qr-code/?data=${selectedTicket.booking_id, selectedTicket.event_name, selectedTicket.event_date, selectedTicket.event_location}&size=200x200`}
+
+              // {"booking_id","booking_date","event_name","event_date","event_location"}
+              alt="QR Code"
+              className="rounded"
+            />
+          )}
         </div>
       </Modal>
     </Page>
