@@ -1,7 +1,6 @@
 import { Page, Header, Box, Text, Button } from "zmp-ui";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-// import BuyTicketPage from "./BuyTicketPage";
 import axios from 'axios';
 
 const EventDetail = () => {
@@ -10,42 +9,66 @@ const EventDetail = () => {
     const eventId = location?.state?.eventId;
 
     const [event, setEvent] = useState(null);
+    const [ticketPrice, setTicketPrice] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [ticketPrice, setTicketPrice] = useState(0);
 
     useEffect(() => {
-        setLoading(true);
-        setError(null);
+        if (!eventId) {
+            setError("Không tìm thấy ID sự kiện.");
+            setLoading(false);
+            return;
+        }
 
-        axios
-            .get(`http://localhost:3001/api/events/${eventId}`)
-            .then((response) => {
-                setEvent(response.data);
-                return axios.get(`http://localhost:3001/api/tickets?eventId=${eventId}`);
-            })
-            .then((ticketResponse) => {
-                const price = ticketResponse.data?.[0]?.price_vnd || 0;
+        const fetchEventDetails = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+
+                const eventRes = await axios.get(`http://localhost:3001/api/events/${eventId}`);
+                setEvent(eventRes.data);
+
+                const ticketRes = await axios.get(`http://localhost:3001/api/tickets?eventId=${eventId}`);
+                const price = ticketRes.data?.[0]?.price_vnd || 0;
                 setTicketPrice(price);
+            } catch (err) {
+                setError("Lỗi khi tải chi tiết sự kiện.");
+            } finally {
                 setLoading(false);
-            })
-            .catch((err) => {
-                setError("Lỗi khi tải chi tiết sự kiện");
-                setLoading(false);
-            });
+            }
+        };
+
+        fetchEventDetails();
     }, [eventId]);
 
+    // === Rendering states ===
     if (loading) {
-        return (<Box className="flex items-center justify-center h-screen"><Text className="text-base font-bold">Đang tải chi tiết sự kiện...</Text></Box>);  
+        return (
+            <Box className="flex items-center justify-center h-screen">
+                <Text className="text-base font-bold">Đang tải chi tiết sự kiện...</Text>
+            </Box>
+        );
+    }
+
+    if (error) {
+        return (
+            <Box className="flex items-center justify-center h-screen flex-col">
+                <Text className="text-base font-bold text-red-500 mb-4">{error}</Text>
+                <Button onClick={() => navigate("/")}>Quay lại</Button>
+            </Box>
+        );
     }
 
     if (!event) {
-        return (<Box className="flex items-center justify-center h-screen flex-col">
-                    <Text className="text-base font-bold mb-4">Không tìm thấy sự kiện</Text>
-                    <Button onClick={() => navigate("/")}>Quay lại</Button>
-                </Box>);
+        return (
+            <Box className="flex items-center justify-center h-screen flex-col">
+                <Text className="text-base font-bold mb-4">Không tìm thấy sự kiện</Text>
+                <Button onClick={() => navigate("/")}>Quay lại</Button>
+            </Box>
+        );
     }
 
+    // === Main UI ===
     return (
         <Page className="bg-white">
             <Header title="Chi tiết sự kiện" back={() => navigate("/")} />
@@ -61,21 +84,21 @@ const EventDetail = () => {
                 </Text.Title>
 
                 <Text className="text-base text-gray-500 mb-2">
-                    <strong>Ngày:</strong> {new Date(event.event_date).toLocaleDateString()}
+                📅 <strong>Ngày:</strong> {new Date(event.event_date).toLocaleDateString()}
                 </Text>
 
                 {event.event_time && (
                     <Text className="text-base text-gray-500 mb-2">
-                        <strong>Thời gian:</strong> {event.event_time}
+                    🕓   <strong>Thời gian:</strong> {event.event_time}
                     </Text>
                 )}
 
                 <Text className="text-base text-gray-500 mb-2">
-                    <strong>Địa điểm:</strong> {event.event_location}
+                📍 <strong>Địa điểm:</strong>  {event.event_location}
                 </Text>
 
                 <Text className="text-base text-gray-500 mb-2">
-                    <strong>Giá vé:</strong> {ticketPrice.toLocaleString()} VNĐ
+                💲 <strong>Giá vé:</strong> {ticketPrice.toLocaleString()} VND
                 </Text>
 
                 <Button
@@ -85,7 +108,6 @@ const EventDetail = () => {
                     Mua vé ngay
                 </Button>
             </Box>
-
         </Page>
     );
 };

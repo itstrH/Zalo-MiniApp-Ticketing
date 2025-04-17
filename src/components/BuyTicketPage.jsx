@@ -85,7 +85,7 @@ const BuyTicketPage = () => {
         <Text.Title size="large" className="mb-2">{event.event_name}</Text.Title>
         <Text className="text-gray-500 mb-1"><strong>Ngày:</strong> {new Date(event.event_date).toLocaleDateString()}</Text>
         <Text className="text-gray-500 mb-1"><strong>Địa điểm:</strong> {event.event_location}</Text>
-        <Text className="text-gray-500 mb-4"><strong>Giá vé:</strong> {ticket.price_vnd.toLocaleString()} VNĐ</Text>
+        <Text className="text-gray-500 mb-4"><strong>Giá vé:</strong> {ticket.price_vnd.toLocaleString()} VND</Text>
 
         <Box className="flex items-center gap-4 mb-4">
           <Text strong>Số lượng vé:</Text>

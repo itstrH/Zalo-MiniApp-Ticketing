@@ -41,7 +41,7 @@ function Ticket() {
 
   return (
     <Page className="bg-[#f9f9f9]">
-      <Header title="Vé của tôi" back={() => navigate("/")} className="bg-green-500 text-white" />
+      <Header title="Vé của tôi" back={() => navigate("/")} className="bg-green-400 text-white" />
 
       <Box className="pt-16 px-4">
         {loading ? (
@@ -60,7 +60,7 @@ function Ticket() {
 
               <Box className="space-y-2 text-gray-600 text-[15px]">
                 <Text>
-                  📅 <strong>Ngày:</strong>{" "}
+                  📅 <strong>Ngày:</strong>
                   {new Date(ticket.event_date).toLocaleDateString()}
                 </Text>
                 <Text>
