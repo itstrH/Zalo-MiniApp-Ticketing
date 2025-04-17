@@ -37,7 +37,7 @@ function HomePage() {
         setHotEvents(res.data);
       })
       .catch((err) => {
-        console.error("Lỗi lấy danh sách hot event:", err);
+        console.error("Lỗi lấy data hot events", err);
       });
 
   }, []
@@ -107,11 +107,11 @@ function HomePage() {
                 <Text.Title size="xSmall" className="px-1 truncate">
                   {event.event_name}
                 </Text.Title>
-                <Text className="px-1 text-sm text-gray-500 truncate font-bold">
-                  {new Date(event.event_date).toLocaleDateString()}
+                <Text className="px-1 text-base text-gray-500 truncate font-bold">
+                📅  {new Date(event.event_date).toLocaleDateString()}
                 </Text>
                 <Text className="px-1 text-base text-gray-500 mb-2 truncate">
-                  {event.event_time}
+                🕒 {event.event_time}
                 </Text>
               </Box>
           </Box>
@@ -137,19 +137,20 @@ function HomePage() {
               <Text.Title size="xSmall" className="px-1 truncate">
                   {event.event_name}
               </Text.Title>
-              <Text className="px-1 text-sm text-gray-500 truncate font-bold">
-                {new Date(event.event_date).toLocaleDateString()}
-              </Text>
-              <Text className="px-1 text-base text-gray-500 mb-2 truncate">
-                {event.event_time}
-              </Text>
+              <Text className="px-1 text-base text-gray-500 truncate font-bold">
+                📅  {new Date(event.event_date).toLocaleDateString()}
+                </Text>
+                <Text className="px-1 text-base text-gray-500 mb-2 truncate">
+                🕒 {event.event_time}
+                </Text>
             </Box>
           </Box>
           ))}
         </Box>
       </Box>
 
-      {/* Bottom Navigation */}
+
+\
       <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
         <BottomNavigation.Item
           key="home"

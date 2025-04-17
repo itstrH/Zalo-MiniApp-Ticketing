@@ -1,48 +1,41 @@
 import { useState } from "react";
-import { Page, Input, Button, Icon, Radio } from "zmp-ui";
-import { useNavigate } from "react-router-dom";  
+import { Page, Input, Button, Icon, Radio, Header} from "zmp-ui";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
-  const navigate = useNavigate();  
-  const [fullName, setFullName] = useState("Khoa Nguyen");
-  const [phone, setPhone] = useState("364923127");
-  const [email] = useState("khoa95905@gmail.com");
-  const [dob, setDob] = useState("2004-09-19");
+  const navigate = useNavigate();
+  const [fullName, setFullName] = useState("Zalo-er");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("demo@ptithcm.edu.vn");
+  const [dob, setDob] = useState("");
   const [gender, setGender] = useState("male");
   const [countryCode, setCountryCode] = useState("+84");
 
   return (
-    <Page className="bg-black text-white p-4">
-      <div className="flex items-center mb-4">
-        <Icon
-          icon="zi-arrow-left"
-          className="text-white mr-2 cursor-pointer"
-          onClick={() => navigate("/")} 
-        />
-        <h1 className="text-lg font-semibold">Trang chủ</h1>
-      </div>
-      
-      <div className="flex flex-col items-center mb-6 mt-4">
+    <Page className="bg-black min-h-screen text-white p-5">
+    <Header title="Cá nhân" className="bg-green-400" back={() => navigate("/")} />
+      <div className="flex flex-col items-center mb-8 mt-16">
         <img
           src="https://i.pinimg.com/736x/b4/bb/b2/b4bbb2198b036fe1024571ec6b60f8b8.jpg"
           alt="avatar"
-          className="w-24 h-24 rounded-full mb-2"
-        />  
-        <p className="text-center mt-2 text-sm text-white px-4">
-          Cung cấp thông tin chính xác sẽ hỗ trợ bạn trong quá trình mua vé, hoặc khi cần xác thực vé
+          className="w-24 h-24 rounded-full border-4 border-green-400 shadow-lg"
+        />
+        <p className="text-sm text-center text-gray-300 mt-4 px-4">
+          Cung cấp thông tin chính xác giúp bạn mua vé & xác minh dễ dàng hơn
         </p>
       </div>
 
-      {/* form info */}
-      <div className="space-y-4">
+
+      <div className="space-y-5">
         <Input
-          label="Họ và tên"
+          type="text"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           className="bg-white text-black rounded-lg"
         />
 
-        <div className="flex items-center bg-white rounded-lg overflow-hidden border border-gray-300 w-full">
+
+        <div className="flex items-center bg-white rounded-lg border border-gray-300 overflow-hidden">
           <select
             className="bg-gray-100 px-3 py-2 outline-none text-black text-sm border-r border-gray-300"
             value={countryCode}
@@ -55,6 +48,7 @@ function Profile() {
 
           <input
             type="tel"
+            label="Số điện thoại"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="Số điện thoại"
@@ -71,45 +65,42 @@ function Profile() {
           )}
         </div>
 
-        <div className="relative w-full">
-          <input
-            type="email"
-            value={email}
-            disabled
-            className="w-full px-4 pr-10 py-3 rounded-lg bg-white text-black border border-gray-300 disabled:bg-white disabled:text-black"
-          />
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-green-500 text-xl pointer-events-none">
-            <Icon icon="zi-check-circle-solid" />
-          </span>
-        </div>
 
-        {/* dob input */}
         <Input
-          label="Ngày tháng năm sinh"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="bg-white text-black rounded-lg"
+        />
+
+
+        <Input
+          label="Ngày sinh"
           type="date"
           value={dob}
           onChange={(e) => setDob(e.target.value)}
           className="bg-white text-black rounded-lg"
         />
 
-        {/* gender select */}
-        <div className="mt-4">
-          <Radio.Group value={gender} onChange={setGender} className="text-white space-x-4">
-            <Radio value="male">Nam</Radio>
-            <Radio value="female">Nữ</Radio>
-            <Radio value="other">Khác</Radio>
+        <div className="flex flex-col mt-2">
+          <label className="mb-1 font-medium text-gray-300">Giới tính</label>
+          <Radio.Group value={gender} onChange={setGender} className="space-x-6">
+            <Radio value="male" className="text-white">Nam</Radio>
+            <Radio value="female" className="text-white">Nữ</Radio>
+            <Radio value="other" className="text-white">Khác</Radio>
           </Radio.Group>
         </div>
       </div>
 
-      {/* submit btn */}
-      <Button className="mt-8 w-full bg-green-500 text-white font-semibold rounded-full"
-              onClick={() => navigate("/")}
+
+      <Button
+        className="mt-10 w-full bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold rounded-full shadow-lg"
+        onClick={() => navigate("/")}
       >
         Hoàn thành
       </Button>
     </Page>
   );
-};
+}
 
 export default Profile;
