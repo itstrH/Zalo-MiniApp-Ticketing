@@ -149,7 +149,8 @@ function HomePage() {
         </Box>
       </Box>
 
-      {/* Bottom Navigation */}
+
+\
       <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
         <BottomNavigation.Item
           key="home"
