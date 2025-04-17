@@ -86,6 +86,38 @@ function HomePage() {
           </Swiper>
         </Box>
 
+
+      {/* sự kiện xu hướng */}
+      <Text.Title size="normal" className="mt-2 px-4">
+          <span role="img" aria-label="fire">🔥</span> Sự kiện xu hướng
+      </Text.Title>
+      <Box className="flex overflow-x-auto gap-6 px-4 w-full">
+        {hotEvents.slice(0, 5).map((event) => (
+          <Box
+            key={event.event_id}
+            onClick={() => handleEventClick(event)}
+            className="min-w-[140px] w-[260px] bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden flex-shrink-0 transition-transform hover:scale-105 cursor-pointer"
+          >
+            <img
+              src={event.banner_url}
+              className="w-full h-[150px] object-cover"
+            />
+            <Box className="p-2">
+              <Text.Title size="xSmall" className="px-1 truncate">
+                  {event.event_name}
+              </Text.Title>
+              <Text className="px-1 text-base text-gray-500 truncate font-bold">
+                📅  {new Date(event.event_date).toLocaleDateString()}
+                </Text>
+                <Text className="px-1 text-base text-gray-500 mb-2 truncate">
+                🕒 {event.event_time}
+                </Text>
+            </Box>
+          </Box>
+          ))}
+        </Box>
+
+
         {/* sự kiện đặc biệt */}
         <Text.Title size="normal" className="mt-2 px-4">
           Sự kiện đặc biệt
@@ -114,36 +146,6 @@ function HomePage() {
                 🕒 {event.event_time}
                 </Text>
               </Box>
-          </Box>
-          ))}
-        </Box>
-
-      {/* sự kiện xu hướng */}
-      <Text.Title size="normal" className="mt-2 px-4">
-          <span role="img" aria-label="fire">🔥</span> Sự kiện xu hướng
-      </Text.Title>
-      <Box className="flex overflow-x-auto gap-6 px-4 w-full">
-        {hotEvents.slice(0, 5).map((event) => (
-          <Box
-            key={event.event_id}
-            onClick={() => handleEventClick(event)}
-            className="min-w-[140px] w-[260px] bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden flex-shrink-0 transition-transform hover:scale-105 cursor-pointer"
-          >
-            <img
-              src={event.banner_url}
-              className="w-full h-[150px] object-cover"
-            />
-            <Box className="p-2">
-              <Text.Title size="xSmall" className="px-1 truncate">
-                  {event.event_name}
-              </Text.Title>
-              <Text className="px-1 text-base text-gray-500 truncate font-bold">
-                📅  {new Date(event.event_date).toLocaleDateString()}
-                </Text>
-                <Text className="px-1 text-base text-gray-500 mb-2 truncate">
-                🕒 {event.event_time}
-                </Text>
-            </Box>
           </Box>
           ))}
         </Box>
