@@ -37,7 +37,7 @@ function HomePage() {
         setHotEvents(res.data);
       })
       .catch((err) => {
-        console.error("Lỗi lấy danh sách hot event:", err);
+        console.error("Lỗi lấy data hot events", err);
       });
 
   }, []
