@@ -17,34 +17,25 @@ function HomePage() {
   const [hotEvents, setHotEvents] = useState([]);
   const navigate = useNavigate();
 
-   // call API khi load trang
-   useEffect(() => {
-    // sap dien ra
-    axios
-      .get("http://localhost:3001/api/events")
-      .then((res) => {
-        setUpcomingEvents(res.data);
-      })
-      .catch((err) => {
-        console.error("Lỗi lấy danh sách sự kiện:", err);
-      });
-
-
-    // hot events 
-    axios
-      .get("http://localhost:3001/api/hot-events")
-      .then((res) => {
-        setHotEvents(res.data);
-      })
-      .catch((err) => {
-        console.error("Lỗi lấy data hot events", err);
-      });
-
-  }, []
-
   
-
-  );
+   useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const [upcomingRes, hotRes] = await Promise.all([
+          axios.get("http://localhost:3001/api/events"),
+          axios.get("http://localhost:3001/api/hot-events"),
+        ]);
+  
+        setUpcomingEvents(upcomingRes.data);
+        setHotEvents(hotRes.data);
+      } catch (err) {
+        console.error("Lỗi khi lấy danh sách sự kiện:", err);
+      }
+    };
+  
+    fetchEvents();
+  }, []);
+  
 
   const handleEventClick = (event) => {
     navigate("/event-detail", { state: { eventId: event.event_id } });
@@ -120,7 +111,7 @@ function HomePage() {
 
         {/* sự kiện đặc biệt */}
         <Text.Title size="normal" className="mt-2 px-4">
-          Sự kiện đặc biệt
+          Dành cho bạn
         </Text.Title>
         <Box
           className="flex overflow-x-auto gap-6 px-4 w-full"   

@@ -41,7 +41,7 @@ const EventDetail = () => {
         fetchEventDetails();
     }, [eventId]);
 
-    // === Rendering states ===
+
     if (loading) {
         return (
             <Box className="flex items-center justify-center h-screen">
@@ -68,7 +68,6 @@ const EventDetail = () => {
         );
     }
 
-    // === Main UI ===
     return (
         <Page className="bg-white">
             <Header title="Chi tiết sự kiện" back={() => navigate("/")} />
@@ -97,12 +96,14 @@ const EventDetail = () => {
                 📍 <strong>Địa điểm:</strong>  {event.event_location}
                 </Text>
 
-                <Text className="text-base text-gray-500 mb-2">
-                💲 <strong>Giá vé:</strong> {ticketPrice.toLocaleString()} VND
+                <Text className="text-base text-gray-500 mb-4 mt-8">
+                    {event.event_description}
                 </Text>
 
+
+  
                 <Button
-                    className="w-full bg-green-500 text-white rounded-full mt-4"
+                    className="bg-green-500 w-full flex justify-center text-white rounded-full pt-4"
                     onClick={() => navigate("/buy-ticket", { state: { eventId: event.event_id } })}
                 >
                     Mua vé ngay
