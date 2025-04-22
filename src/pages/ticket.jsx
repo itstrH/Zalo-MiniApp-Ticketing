@@ -11,17 +11,21 @@ function Ticket() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/api/bookings")
-      .then((res) => {
+    const fetchBookings = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get("http://localhost:3001/api/bookings");
         setBookings(res.data);
+      } catch (err) {
+        console.error("Lỗi khi lấy danh sách bookings:", err);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
+      }
+    };
+  
+    fetchBookings();
   }, []);
+  
 
   const EmptyState = () => (
     <Box className="flex flex-col items-center justify-center py-12 space-y-4">
@@ -41,7 +45,7 @@ function Ticket() {
 
   return (
     <Page className="bg-[#f9f9f9]">
-      <Header title="Vé của tôi" back={() => navigate("/")} className="bg-green-400 text-white" />
+      <Header title="Vé của tôi" back={() => navigate("/")} className="bg-green-400" />
 
       <Box className="pt-16 px-4">
         {loading ? (
@@ -60,7 +64,7 @@ function Ticket() {
 
               <Box className="space-y-2 text-gray-600 text-[15px]">
                 <Text>
-                  📅 <strong>Ngày:</strong>
+                  📅 <strong>Ngày: </strong>
                   {new Date(ticket.event_date).toLocaleDateString()}
                 </Text>
                 <Text>

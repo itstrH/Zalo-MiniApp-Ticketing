@@ -17,34 +17,25 @@ function HomePage() {
   const [hotEvents, setHotEvents] = useState([]);
   const navigate = useNavigate();
 
-   // call API khi load trang
-   useEffect(() => {
-    // sap dien ra
-    axios
-      .get("http://localhost:3001/api/events")
-      .then((res) => {
-        setUpcomingEvents(res.data);
-      })
-      .catch((err) => {
-        console.error("Lỗi lấy danh sách sự kiện:", err);
-      });
-
-
-    // hot events 
-    axios
-      .get("http://localhost:3001/api/hot-events")
-      .then((res) => {
-        setHotEvents(res.data);
-      })
-      .catch((err) => {
-        console.error("Lỗi lấy data hot events", err);
-      });
-
-  }, []
-
   
-
-  );
+   useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const [upcomingRes, hotRes] = await Promise.all([
+          axios.get("http://localhost:3001/api/events"),
+          axios.get("http://localhost:3001/api/hot-events"),
+        ]);
+  
+        setUpcomingEvents(upcomingRes.data);
+        setHotEvents(hotRes.data);
+      } catch (err) {
+        console.error("Lỗi khi lấy danh sách sự kiện:", err);
+      }
+    };
+  
+    fetchEvents();
+  }, []);
+  
 
   const handleEventClick = (event) => {
     navigate("/event-detail", { state: { eventId: event.event_id } });
@@ -86,37 +77,6 @@ function HomePage() {
           </Swiper>
         </Box>
 
-        {/* sự kiện đặc biệt */}
-        <Text.Title size="normal" className="mt-2 px-4">
-          Sự kiện đặc biệt
-        </Text.Title>
-        <Box
-          className="flex overflow-x-auto gap-6 px-4 w-full"   
-        >
-          {upcomingEvents.slice(2, 10).map((event) => (
-            <Box
-              key = {event.event_id}
-              onClick={() => handleEventClick(event)}
-              className="min-w-[140px] w-[260px] bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden flex-shrink-0 transition-transform hover:scale-105 cursor-pointer"
-            >
-              <img
-              src={event.banner_url}
-              className="w-full h-[150px] object-cover"
-              />
-              <Box className="p-2">
-                <Text.Title size="xSmall" className="px-1 truncate">
-                  {event.event_name}
-                </Text.Title>
-                <Text className="px-1 text-base text-gray-500 truncate font-bold">
-                📅  {new Date(event.event_date).toLocaleDateString()}
-                </Text>
-                <Text className="px-1 text-base text-gray-500 mb-2 truncate">
-                🕒 {event.event_time}
-                </Text>
-              </Box>
-          </Box>
-          ))}
-        </Box>
 
       {/* sự kiện xu hướng */}
       <Text.Title size="normal" className="mt-2 px-4">
@@ -144,6 +104,39 @@ function HomePage() {
                 🕒 {event.event_time}
                 </Text>
             </Box>
+          </Box>
+          ))}
+        </Box>
+
+
+        {/* sự kiện đặc biệt */}
+        <Text.Title size="normal" className="mt-2 px-4">
+          Dành cho bạn
+        </Text.Title>
+        <Box
+          className="flex overflow-x-auto gap-6 px-4 w-full"   
+        >
+          {upcomingEvents.slice(2, 10).map((event) => (
+            <Box
+              key = {event.event_id}
+              onClick={() => handleEventClick(event)}
+              className="min-w-[140px] w-[260px] bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden flex-shrink-0 transition-transform hover:scale-105 cursor-pointer"
+            >
+              <img
+              src={event.banner_url}
+              className="w-full h-[150px] object-cover"
+              />
+              <Box className="p-2">
+                <Text.Title size="xSmall" className="px-1 truncate">
+                  {event.event_name}
+                </Text.Title>
+                <Text className="px-1 text-base text-gray-500 truncate font-bold">
+                📅  {new Date(event.event_date).toLocaleDateString()}
+                </Text>
+                <Text className="px-1 text-base text-gray-500 mb-2 truncate">
+                🕒 {event.event_time}
+                </Text>
+              </Box>
           </Box>
           ))}
         </Box>
