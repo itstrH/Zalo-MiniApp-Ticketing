@@ -142,8 +142,14 @@ function HomePage() {
         </Box>
       </Box>
 
+      
+      <button
+        onClick={() => navigate("/add-event")}
+        className="fixed bottom-20 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg"
+      >
+      + Thêm sự kiện
+      </button>
 
-\
       <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
         <BottomNavigation.Item
           key="home"

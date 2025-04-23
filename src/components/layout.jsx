@@ -13,6 +13,7 @@ import Profile from "../pages/profiles";
 import Ticket from "../pages/ticket";
 import EventDetail from "../components/EventDetail"; 
 import BuyTicketPage from "./BuyTicketPage";
+import AddEvent from "./AddEvent";
 
 const Layout = () => {
   const [theme, setTheme] = useState("light"); // fallback default theme
@@ -41,7 +42,7 @@ const Layout = () => {
             <Route path="/profiles" element={<Profile />} />
             <Route path="/ticket" element={<Ticket />} />
             <Route path="/event-detail" element={<EventDetail />} />
-            
+            <Route path="/add-event" element={<AddEvent />} />
             <Route path="/buy-ticket" element={<BuyTicketPage />} />
 
           </AnimationRoutes>

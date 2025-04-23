@@ -166,7 +166,7 @@ const BuyTicketPage = () => {
               },
               {
                 value: "online-banking",
-                label: "Ngân hàng",
+                label: "Banking",
                 img: "https://news.mbbank.com.vn/file-service/uploads/v1/images/c21788de-1a22-48e0-a4ca-7bda44d5b2b4-logo-bidv-20220426071253.jpg?width=947&height=366",
               },
             ].map((method) => (

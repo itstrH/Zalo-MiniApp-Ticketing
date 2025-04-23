@@ -61,11 +61,11 @@ function Ticket() {
     <Page className="bg-[#f9f9f9]">
       <Header title="Vé của tôi" back={() => navigate("/")} className="bg-green-400" />
 
-      <Box className="pt-16 px-4">
-      <Tabs value={activeTab} onChange={setActiveTab} className="mb-4 w-full">
-        <Tabs.Tab key="valid" value="valid" label="Vé đã mua" />
-        <Tabs.Tab key="cancelled" value="cancelled" label="Vé đã hủy" />
-      </Tabs>
+      <Box className="pt-16">
+        <Tabs value={activeTab} onChange={setActiveTab} className="mb-4 w-full">
+          <Tabs.Tab key="valid" value="valid" label="Vé đã mua" />
+          <Tabs.Tab key="cancelled" value="cancelled" label="Vé đã hủy" />
+        </Tabs>
 
         {loading ? (
           <Text>Đang tải...</Text>
