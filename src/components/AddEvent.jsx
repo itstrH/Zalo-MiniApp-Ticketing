@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Page, Header, Input, Button, Text } from "zmp-ui";
 import axios from "axios";
 
-function AddEvent() {
+const AddEvent = () => {
   const [form, setForm] = useState({
     event_name: "",
     event_date: "",
@@ -16,10 +16,7 @@ function AddEvent() {
   });
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleTicketChange = (type, field, value) => {
@@ -27,16 +24,25 @@ function AddEvent() {
       ...form,
       [type]: {
         ...form[type],
-        [field]: value,
-      },
+        [field]: value
+      }
     });
   };
 
   const handleSubmit = async () => {
-    const event_id = "event_" + Date.now();
+    const requiredFields = [
+      "event_name", "event_date", "event_time",
+      "event_location", "event_description", "banner_url"
+    ];
+  
+    for (let field of requiredFields) {
+      if (!form[field]) {
+        alert("Vui lòng điền đầy đủ thông tin!");
+        return;
+      }
+    }
 
     const payload = {
-      event_id,
       event_name: form.event_name,
       event_date: form.event_date,
       event_time: form.event_time,
@@ -47,21 +53,20 @@ function AddEvent() {
       tickets: [
         {
           ticket_type: "Thường",
-          price: parseInt(form.ticket_regular.price),
+          price_vnd: parseInt(form.ticket_regular.price),
           quantity: parseInt(form.ticket_regular.quantity),
         },
         {
           ticket_type: "VIP",
-          price: parseInt(form.ticket_vip.price),
+          price_vnd: parseInt(form.ticket_vip.price),
           quantity: parseInt(form.ticket_vip.quantity),
         },
       ],
     };
-
+  
     try {
-      await axios.post("http://localhost:3001/api/events", payload);
-      alert("Tạo sự kiện và vé thành công!");
-
+      const response = await axios.post("http://localhost:3001/api/events", payload);
+      alert("Tạo sự kiện thành công!");
       setForm({
         event_name: "",
         event_date: "",
@@ -71,11 +76,11 @@ function AddEvent() {
         banner_url: "",
         hot_level: 0,
         ticket_regular: { price: "", quantity: "" },
-        ticket_vip: { price: "", quantity: "" },
+        ticket_vip: { price: "", quantity: "" }
       });
     } catch (err) {
-      alert("Lỗi khi tạo sự kiện!");
       console.error(err);
+      alert("Có lỗi xảy ra khi tạo sự kiện.");
     }
   };
 
@@ -89,11 +94,11 @@ function AddEvent() {
         <Input label="Địa điểm" name="event_location" value={form.event_location} onChange={handleChange} />
         <Input label="Mô tả sự kiện" name="event_description" value={form.event_description} onChange={handleChange} />
         <Input label="Banner URL" name="banner_url" value={form.banner_url} onChange={handleChange} />
-        <Input label="Hot Level" name="hot_level" type="number" value={form.hot_level} onChange={handleChange} />
+        <Input label="Hot Level" type="number" name="hot_level" value={form.hot_level} onChange={handleChange} />
 
         <Text className="font-bold mt-4">Vé Thường</Text>
-        <Input label="Giá vé thường" type="number" value={form.ticket_regular.price} onChange={(e) => handleTicketChange("ticket_regular", "price", e.target.value)} />
-        <Input label="Số lượng vé thường" type="number" value={form.ticket_regular.quantity} onChange={(e) => handleTicketChange("ticket_regular", "quantity", e.target.value)} />
+        <Input label="Giá vé Thường" type="number" value={form.ticket_regular.price} onChange={(e) => handleTicketChange("ticket_regular", "price", e.target.value)} />
+        <Input label="Số lượng vé Thường" type="number" value={form.ticket_regular.quantity} onChange={(e) => handleTicketChange("ticket_regular", "quantity", e.target.value)} />
 
         <Text className="font-bold mt-4">Vé VIP</Text>
         <Input label="Giá vé VIP" type="number" value={form.ticket_vip.price} onChange={(e) => handleTicketChange("ticket_vip", "price", e.target.value)} />
@@ -103,6 +108,6 @@ function AddEvent() {
       </Box>
     </Page>
   );
-}
+};
 
 export default AddEvent;
