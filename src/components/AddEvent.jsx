@@ -87,7 +87,7 @@ const AddEvent = () => {
   };
 
   return (
-    <Page className="pt-16 px-4">
+    <Page className="pt-16 px-4 bg-white">
       <Header title="Thêm sự kiện mới" className="bg-green-400" />
       <Box className="flex flex-col gap-4 mt-4">
         <Input label="Tên sự kiện" name="event_name" value={form.event_name} onChange={handleChange} />
@@ -106,7 +106,7 @@ const AddEvent = () => {
         <Input label="Giá vé VIP" type="number" value={form.ticket_vip.price} onChange={(e) => handleTicketChange("ticket_vip", "price", e.target.value)} />
         <Input label="Số lượng vé VIP" type="number" value={form.ticket_vip.quantity} onChange={(e) => handleTicketChange("ticket_vip", "quantity", e.target.value)} />
 
-        <Button onClick={handleSubmit}>Tạo sự kiện</Button>
+        <Button onClick={handleSubmit} className="bg-green-400">Tạo sự kiện</Button>
       </Box>
     </Page>
   );

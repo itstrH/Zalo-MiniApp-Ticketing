@@ -59,6 +59,16 @@ function HomePage() {
     >
       <Header title="Za Ticketing" className="bg-green-400"/>
 
+      <Box className="flex pt-2">
+      <button
+        onClick={() => navigate("/add-event")}
+        className="fixed bottom-20 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg"
+      >
+        Tạo sự kiện
+      </button>
+
+      </Box>
+
       <Box className="flex flex-col gap-8 pt-2 pb-20">
         {/* swiper */}
         <Text.Title size="normal" className="mt-4 px-4">
@@ -143,12 +153,12 @@ function HomePage() {
       </Box>
 
       
-      <button
+      {/* <button
         onClick={() => navigate("/add-event")}
-        className="fixed bottom-20 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg"
+        className="fixed bottom-20 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-white hover:text-black transition-all duration-300"
       >
-      + Thêm sự kiện
-      </button>
+        Tạo sự kiện
+      </button> */}
 
       <BottomNavigation fixed activeKey={activeTab} onChange={handleTabChange}>
         <BottomNavigation.Item
