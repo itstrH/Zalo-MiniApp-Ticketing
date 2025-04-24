@@ -1,7 +1,9 @@
+// src/pages/Profile.jsx
 import { useState, useEffect } from "react";
 import { Page, Input, Button, Icon, Radio, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import useAuthGuard from "../hooks/useAuthGuard";
+import axios from "axios"; // Thêm axios để gọi API logout
 
 function Profile() {
   useAuthGuard(); // Kiểm tra xem người dùng đã đăng nhập chưa
@@ -23,6 +25,20 @@ function Profile() {
       setGender(storedUser.gender || "male");
     }
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      // Gọi API logout để xóa session/cookie ở server
+      await axios.post("http://localhost:3001/api/logout", {}, { withCredentials: true });
+      // Xóa thông tin người dùng và token trong localStorage
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      // Chuyển hướng về trang login
+      navigate("/login");
+    } catch (err) {
+      console.error("Lỗi khi đăng xuất", err);
+    }
+  };
 
   return (
     <Page className="bg-black min-h-screen text-white p-5">
@@ -109,11 +125,7 @@ function Profile() {
 
       <Button
         className="mt-4 w-full bg-red-500 text-white rounded-full"
-        onClick={() => {
-          localStorage.removeItem("user");
-          localStorage.removeItem("token");
-          navigate("/login");
-        }}
+        onClick={handleLogout} // Gọi hàm handleLogout khi đăng xuất
       >
         Đăng xuất
       </Button>
