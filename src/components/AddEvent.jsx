@@ -4,7 +4,7 @@ import axios from "axios";
 import useAuthGuard from "../hooks/useAuthGuard";
 
 const AddEvent = () => {
-  useAuthGuard(); // Kiểm tra xem người dùng đã đăng nhập chưa
+  useAuthGuard();
   const [form, setForm] = useState({
     event_name: "",
     event_date: "",

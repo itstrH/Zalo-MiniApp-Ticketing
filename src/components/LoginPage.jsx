@@ -1,38 +1,45 @@
 import { useState } from "react";
-import { Page, Input, Button, Header, Text, Spinner } from "zmp-ui";
+import { Page, Input, Button, Header, Text, Spinner, Box } from "zmp-ui";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import logo from "../static/ZaTicLogo.jpg";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    setLoading(true); // Show loading spinner
+    setLoading(true); 
     try {
       const res = await axios.post(
         'http://localhost:3001/api/login',
         { email, password },
-        { credentials: 'include' } // Đảm bảo cookie được gửi kèm
+        { credentials: 'include' } 
       );
 
-      // Lưu dữ liệu người dùng và điều hướng đến trang chủ
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      navigate("/"); // Điều hướng đến trang chủ
+      navigate("/"); 
     } catch (err) {
       setErrMsg(err.response?.data?.error || "Đăng nhập thất bại");
     } finally {
-      setLoading(false); // Ẩn loading spinner
+      setLoading(false); 
     }
   };
 
   return (
     <Page className="p-6 bg-black text-white">
       <Header title="Đăng nhập" className="bg-green-500" />
-      <div className="space-y-4 mt-8">
+      <Box className="mt-16">
+        <img
+          src={logo}
+          alt="Logo"
+          className="w-32 h-auto mx-auto my-4 rounded-xl shadow-lg"
+        />
+      </Box>
+      <div className="space-y-4">
         <Input
           type="email"
           label="Email"
@@ -54,7 +61,7 @@ export default function LoginPage() {
         <Button variant="secondary" onClick={() => navigate("/register")}>
           Chưa có tài khoản? Đăng ký
         </Button>
-        {/* Nút quay lại trang chủ */}
+
         <Button variant="tertiary" onClick={() => {
           console.log("Navigating back to home");
           navigate("/"); 

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Page, Input, Button, Radio, Header } from "zmp-ui";
+import { Page, Input, Button, Radio, Header, Box } from "zmp-ui";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import logo from "../static/ZaTicLogo.jpg";
 
 export default function RegisterPage() {
   const [fullName, setFullName] = useState("");
@@ -32,7 +33,14 @@ export default function RegisterPage() {
   return (
     <Page className="p-6 bg-black text-white">
       <Header title="Đăng ký" className="bg-green-500" />
-      <div className="space-y-4 mt-8">
+      <Box className="mt-16">
+        <img
+          src={logo}
+          alt="Logo"
+          className="w-32 h-auto mx-auto my-4 rounded-xl shadow-lg"
+        />
+      </Box>
+      <div className="space-y-4">
         <Input
           label="Họ tên"
           placeholder="Nhập họ tên đầy đủ"
