@@ -1,19 +1,32 @@
-import { useState } from "react";
-import { Page, Input, Button, Icon, Radio, Header} from "zmp-ui";
+import { useState, useEffect } from "react";
+import { Page, Input, Button, Icon, Radio, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
+import useAuthGuard from "../hooks/useAuthGuard";
 
 function Profile() {
+  useAuthGuard(); // Kiểm tra xem người dùng đã đăng nhập chưa
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState("Zalo-er");
+  const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("demo@ptithcm.edu.vn");
+  const [email, setEmail] = useState("");
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("male");
   const [countryCode, setCountryCode] = useState("+84");
 
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setFullName(storedUser.full_name || "");
+      setPhone(storedUser.phone || "");
+      setEmail(storedUser.email || "");
+      setDob(storedUser.dob || "");
+      setGender(storedUser.gender || "male");
+    }
+  }, []);
+
   return (
     <Page className="bg-black min-h-screen text-white p-5">
-    <Header title="Cá nhân" className="bg-green-400" back={() => navigate("/")} />
+      <Header title="Cá nhân" className="bg-green-400" back={() => navigate("/")} />
       <div className="flex flex-col items-center mb-8 mt-16">
         <img
           src="https://i.pinimg.com/736x/b4/bb/b2/b4bbb2198b036fe1024571ec6b60f8b8.jpg"
@@ -25,7 +38,6 @@ function Profile() {
         </p>
       </div>
 
-
       <div className="space-y-5">
         <Input
           type="text"
@@ -33,7 +45,6 @@ function Profile() {
           onChange={(e) => setFullName(e.target.value)}
           className="bg-white text-black rounded-lg"
         />
-
 
         <div className="flex items-center bg-white rounded-lg border border-gray-300 overflow-hidden">
           <select
@@ -48,7 +59,6 @@ function Profile() {
 
           <input
             type="tel"
-            label="Số điện thoại"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="Số điện thoại"
@@ -65,14 +75,12 @@ function Profile() {
           )}
         </div>
 
-
         <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="bg-white text-black rounded-lg"
         />
-
 
         <Input
           label="Ngày sinh"
@@ -92,12 +100,22 @@ function Profile() {
         </div>
       </div>
 
-
       <Button
         className="mt-10 w-full bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold rounded-full shadow-lg"
         onClick={() => navigate("/")}
       >
         Hoàn thành
+      </Button>
+
+      <Button
+        className="mt-4 w-full bg-red-500 text-white rounded-full"
+        onClick={() => {
+          localStorage.removeItem("user");
+          localStorage.removeItem("token");
+          navigate("/login");
+        }}
+      >
+        Đăng xuất
       </Button>
     </Page>
   );

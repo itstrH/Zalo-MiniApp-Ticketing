@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Box, Page, Header, Input, Button, Text } from "zmp-ui";
 import axios from "axios";
+import useAuthGuard from "../hooks/useAuthGuard";
 
 const AddEvent = () => {
+  useAuthGuard(); // Kiểm tra xem người dùng đã đăng nhập chưa
   const [form, setForm] = useState({
     event_name: "",
     event_date: "",

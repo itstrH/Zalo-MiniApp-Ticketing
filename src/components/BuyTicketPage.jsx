@@ -2,8 +2,11 @@ import { Page, Header, Box, Text, Button } from "zmp-ui";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import useAuthGuard from "../hooks/useAuthGuard";
+
 
 const BuyTicketPage = () => {
+  useAuthGuard(); // Kiểm tra xem người dùng đã đăng nhập chưa
   const location = useLocation();
   const navigate = useNavigate();
   const eventId = location?.state?.eventId;
@@ -165,7 +168,7 @@ const BuyTicketPage = () => {
               },
               {
                 value: "online-banking",
-                label: "Banking",
+                label: "Ngân hàng",
                 img: "https://news.mbbank.com.vn/file-service/uploads/v1/images/c21788de-1a22-48e0-a4ca-7bda44d5b2b4-logo-bidv-20220426071253.jpg?width=947&height=366",
               },
             ].map((method) => (
