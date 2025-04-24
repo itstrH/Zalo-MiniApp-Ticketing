@@ -105,7 +105,6 @@ const BuyTicketPage = () => {
         <Text className="text-gray-500 mb-1"><strong>Ngày:</strong> {new Date(event.event_date).toLocaleDateString()}</Text>
         <Text className="text-gray-500 mb-1"><strong>Địa điểm:</strong> {event.event_location}</Text>
 
-        {/* Danh sách loại vé */}
         <Box className="mb-4">
           <Text strong className="block mb-2">Chọn loại vé:</Text>
           <Box className="grid grid-cols-2 gap-3">
@@ -120,7 +119,7 @@ const BuyTicketPage = () => {
                 } ${t.remaining_quantity === 0 ? "opacity-50 pointer-events-none" : ""}`}
               >
                 <Text className="block font-medium">{t.ticket_type}</Text>
-                <Text className="text-sm text-gray-500">{t.price_vnd.toLocaleString()} VNĐ</Text>
+                <Text className="text-sm text-gray-500">{t.price_vnd.toLocaleString()} VND</Text>
                 <Text className="text-xs text-red-500 mt-1">
                   {t.remaining_quantity > 0
                     ? `Còn lại: ${t.remaining_quantity}`
@@ -149,12 +148,12 @@ const BuyTicketPage = () => {
           >+</Button>
         </Box>
 
-        {/* Tổng tiền */}
+        {/* tính tổng tiền */}
         <Text className="text-base font-bold mb-4">
-          Tổng tiền: {(selectedTicket.price_vnd * quantity).toLocaleString()} VNĐ
+          Tổng tiền: {(selectedTicket.price_vnd * quantity).toLocaleString()} VND
         </Text>
 
-        {/* Phương thức thanh toán */}
+        {/* pthuc thanh toán */}
         <Box className="mb-6">
           <Text strong className="mb-2 mt-6 block text-base text-red-600 font-semibold">Thanh toán:</Text>
           <Box className="grid grid-cols-2 gap-4 mt-2">
@@ -186,7 +185,7 @@ const BuyTicketPage = () => {
           </Box>
         </Box>
 
-        {/* Nút đặt vé */}
+        {/* booking btn */}
         <Button
           className="w-full bg-blue-500 text-white mt-4 rounded-full py-3 text-base font-semibold"
           onClick={handleBooking}
