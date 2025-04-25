@@ -5,7 +5,7 @@ import axios from "axios";
 import useAuthGuard from "../hooks/useAuthGuard";
 
 function Ticket() {
-  useAuthGuard(); // Kiểm tra xem người dùng đã đăng nhập chưa
+  useAuthGuard();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showQR, setShowQR] = useState(false);
@@ -61,7 +61,7 @@ function Ticket() {
 
   return (
     <Page className="bg-[#f9f9f9]">
-      <Header title="Vé của tôi" back={() => navigate("/")} className="bg-green-400" />
+      <Header title="Vé của tôi" leftButton={() => navigate("/")} className="bg-green-400" />
 
       <Box className="pt-16 px-4">
       <Tabs value={activeTab} onChange={setActiveTab} className="mb-4 w-full">

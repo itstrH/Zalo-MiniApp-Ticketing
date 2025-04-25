@@ -133,7 +133,6 @@ const BuyTicketPage = () => {
           </Box>
         </Box>
 
-        {/* Số lượng */}
         <Box className="flex items-center gap-4 mb-4">
           <Text strong>Số lượng vé:</Text>
           <Button

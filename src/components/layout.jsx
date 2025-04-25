@@ -18,7 +18,7 @@ import LoginPage from "../components/LoginPage";
 import RegisterPage from "../components/RegisterPage";
 
 const Layout = () => {
-  const [theme, setTheme] = useState("light"); // fallback default theme
+  const [theme, setTheme] = useState("light"); 
 
   useEffect(() => {
     const fetchSystemInfo = async () => {
@@ -46,7 +46,6 @@ const Layout = () => {
             <Route path="/event-detail" element={<EventDetail />} />
             <Route path="/add-event" element={<AddEvent />} />
             <Route path="/buy-ticket" element={<BuyTicketPage />} />
-
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
 

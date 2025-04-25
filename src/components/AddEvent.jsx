@@ -4,7 +4,7 @@ import axios from "axios";
 import useAuthGuard from "../hooks/useAuthGuard";
 
 const AddEvent = () => {
-  useAuthGuard(); // Kiểm tra xem người dùng đã đăng nhập chưa
+  useAuthGuard();
   const [form, setForm] = useState({
     event_name: "",
     event_date: "",
@@ -99,12 +99,12 @@ const AddEvent = () => {
         <Input label="Hot Level" type="number" name="hot_level" value={form.hot_level} onChange={handleChange} />
 
         <Text className="font-bold mt-4">Vé Thường</Text>
-        <Input label="Giá vé Thường" type="number" value={form.ticket_regular.price} onChange={(e) => handleTicketChange("ticket_regular", "price", e.target.value)} />
-        <Input label="Số lượng vé Thường" type="number" value={form.ticket_regular.quantity} onChange={(e) => handleTicketChange("ticket_regular", "quantity", e.target.value)} />
+        <Input label="Giá vé thường" type="number" value={form.ticket_regular.price} onChange={(e) => handleTicketChange("ticket_regular", "price", e.target.value)} />
+        <Input label="Số lượng vé" type="number" value={form.ticket_regular.quantity} onChange={(e) => handleTicketChange("ticket_regular", "quantity", e.target.value)} />
 
         <Text className="font-bold mt-4">Vé VIP</Text>
         <Input label="Giá vé VIP" type="number" value={form.ticket_vip.price} onChange={(e) => handleTicketChange("ticket_vip", "price", e.target.value)} />
-        <Input label="Số lượng vé VIP" type="number" value={form.ticket_vip.quantity} onChange={(e) => handleTicketChange("ticket_vip", "quantity", e.target.value)} />
+        <Input label="Số lượng vé" type="number" value={form.ticket_vip.quantity} onChange={(e) => handleTicketChange("ticket_vip", "quantity", e.target.value)} />
 
         <Button onClick={handleSubmit} className="bg-green-400">Tạo sự kiện</Button>
       </Box>
