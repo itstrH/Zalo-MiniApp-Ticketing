@@ -31,7 +31,7 @@ export default function LoginPage() {
 
   return (
     <Page className="p-6 bg-black text-white">
-      <Header title="Đăng nhập" className="bg-green-500" />
+      <Header title="Đăng nhập" className="bg-green-500" back={() => navigate("/")}/>
       <Box className="mt-16">
         <img
           src={logo}
