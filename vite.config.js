@@ -3,6 +3,10 @@ import zaloMiniApp from "zmp-vite-plugin";
 import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
+import { defineConfig } from "vite";
+import zaloMiniApp from "zmp-vite-plugin";
+import react from "@vitejs/plugin-react";
+
 export default () => {
   return defineConfig({
     root: "./src",
@@ -10,6 +14,8 @@ export default () => {
     plugins: [zaloMiniApp(), react()],
     build: {
       assetsInlineLimit: 0,
+      outDir: "../dist", // 👈 Đặt lại thư mục build ra ngoài
+      emptyOutDir: true,
     },
   });
 };
