@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   root: "./src", // trỏ vào thư mục src
-  base: "",
+  base: "./",
   plugins: [zaloMiniApp(), react()],
   build: {
     outDir: "../dist", // build ra ngoài src, vào thư mục dist
