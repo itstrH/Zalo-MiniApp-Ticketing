@@ -4,6 +4,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from "../static/ZaTicLogo.jpg";
 
+// Đảm bảo axios luôn gửi cookie auth
+axios.defaults.withCredentials = true;
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,13 +19,18 @@ export default function LoginPage() {
     try {
       const res = await axios.post(
         'http://localhost:3001/api/login',
-        { email, password },
-        { credentials: 'include' } 
+        { email, password }
       );
 
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      navigate("/"); 
+      // Kiểm tra xem dữ liệu trả về có chứa thông tin người dùng và cookie auth không
+      if (res.data && res.data.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.user)); // Lưu thông tin người dùng vào localStorage
+        navigate("/");  // Chuyển hướng về trang chính sau khi đăng nhập thành công
+      } else {
+        setErrMsg("Thông tin đăng nhập không đúng!");
+      }
     } catch (err) {
+      // Xử lý lỗi nếu có
       setErrMsg(err.response?.data?.error || "Đăng nhập thất bại");
     } finally {
       setLoading(false); 
@@ -62,10 +70,7 @@ export default function LoginPage() {
           Chưa có tài khoản? Đăng ký
         </Button>
 
-        <Button variant="tertiary" onClick={() => {
-          console.log("Navigating back to home");
-          navigate("/"); 
-        }}>
+        <Button variant="tertiary" onClick={() => navigate("/")}>
           Quay lại trang chủ
         </Button>
       </div>

@@ -3,6 +3,7 @@ import { Page, Input, Button, Icon, Radio, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import useAuthGuard from "../hooks/useAuthGuard";
 import axios from "axios"; 
+axios.defaults.withCredentials = true; // Giúp gửi cookie cùng với mỗi yêu cầu
 
 function Profile() {
   useAuthGuard(); 

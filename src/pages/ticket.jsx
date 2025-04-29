@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuthGuard from "../hooks/useAuthGuard";
+axios.defaults.withCredentials = true; // Giúp gửi cookie cùng với mỗi yêu cầu
 
 function Ticket() {
   useAuthGuard();
@@ -11,6 +12,7 @@ function Ticket() {
   const [showQR, setShowQR] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [activeTab, setActiveTab] = useState("valid");
+  const [errorMessage, setErrorMessage] = useState(""); // Thêm thông báo lỗi nếu cần
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,10 +22,13 @@ function Ticket() {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:3001/api/bookings");
+      // Lấy bookings của người dùng đã đăng nhập, đảm bảo cookie được gửi đi
+      const res = await axios.get("http://localhost:3001/api/bookings", { withCredentials: true });
       setBookings(res.data);
+      setErrorMessage(""); // Reset lỗi khi thành công
     } catch (err) {
       console.error("Lỗi khi lấy danh sách bookings:", err);
+      setErrorMessage("Không thể tải dữ liệu vé. Vui lòng thử lại sau.");
     } finally {
       setLoading(false);
     }
@@ -31,11 +36,12 @@ function Ticket() {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      await axios.put(`http://localhost:3001/api/bookings/cancel/${bookingId}`);
+      await axios.put(`http://localhost:3001/api/bookings/cancel/${bookingId}`, null, { withCredentials: true });
       await fetchBookings(); 
       setActiveTab("cancelled");
     } catch (err) {
       console.error("Lỗi khi hủy vé:", err);
+      setErrorMessage("Lỗi khi hủy vé. Vui lòng thử lại.");
     }
   };
 
@@ -64,13 +70,15 @@ function Ticket() {
       <Header title="Vé của tôi" leftButton={() => navigate("/")} className="bg-green-400" />
 
       <Box className="pt-16 px-4">
-      <Tabs value={activeTab} onChange={setActiveTab} className="mb-4 w-full">
-        <Tabs.Tab key="valid" value="valid" label="Vé đã mua" />
-        <Tabs.Tab key="cancelled" value="cancelled" label="Vé đã hủy" />
-      </Tabs>
+        <Tabs value={activeTab} onChange={setActiveTab} className="mb-4 w-full">
+          <Tabs.Tab key="valid" value="valid" label="Vé đã mua" />
+          <Tabs.Tab key="cancelled" value="cancelled" label="Vé đã hủy" />
+        </Tabs>
 
         {loading ? (
           <Text>Đang tải...</Text>
+        ) : errorMessage ? (
+          <Text className="text-red-500">{errorMessage}</Text>
         ) : filteredBookings.length === 0 ? (
           <EmptyState
             message={activeTab === "valid" ? "Bạn chưa có vé nào" : "Bạn chưa hủy vé nào"}
