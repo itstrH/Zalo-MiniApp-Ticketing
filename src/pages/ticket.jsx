@@ -1,8 +1,9 @@
-import { Box, Page, Text, Button, Modal, Header, Tabs } from "zmp-ui";
+import { Box, Page, Text, Button, Modal, Header, Tabs, BottomNavigation } from "zmp-ui";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuthGuard from "../hooks/useAuthGuard";
+axios.defaults.withCredentials = true; 
 
 function Ticket() {
   useAuthGuard();
@@ -11,6 +12,8 @@ function Ticket() {
   const [showQR, setShowQR] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [activeTab, setActiveTab] = useState("valid");
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const [activeBottomTab, setActiveBottomTab] = useState("ticket"); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,10 +23,12 @@ function Ticket() {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:3001/api/bookings");
+      const res = await axios.get("http://localhost:3001/api/bookings", { withCredentials: true });
       setBookings(res.data);
+      setErrorMessage(""); 
     } catch (err) {
       console.error("Lỗi khi lấy danh sách bookings:", err);
+      setErrorMessage("Không thể tải dữ liệu vé. Vui lòng thử lại sau.");
     } finally {
       setLoading(false);
     }
@@ -31,11 +36,12 @@ function Ticket() {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      await axios.put(`http://localhost:3001/api/bookings/cancel/${bookingId}`);
+      await axios.put(`http://localhost:3001/api/bookings/cancel/${bookingId}`, null, { withCredentials: true });
       await fetchBookings(); 
       setActiveTab("cancelled");
     } catch (err) {
       console.error("Lỗi khi hủy vé:", err);
+      setErrorMessage("Lỗi khi hủy vé. Vui lòng thử lại.");
     }
   };
 
@@ -64,13 +70,15 @@ function Ticket() {
       <Header title="Vé của tôi" leftButton={() => navigate("/")} className="bg-green-400" />
 
       <Box className="pt-16 px-4">
-      <Tabs value={activeTab} onChange={setActiveTab} className="mb-4 w-full">
-        <Tabs.Tab key="valid" value="valid" label="Vé đã mua" />
-        <Tabs.Tab key="cancelled" value="cancelled" label="Vé đã hủy" />
-      </Tabs>
+        <Tabs value={activeTab} onChange={setActiveTab} className="mb-4 w-full">
+          <Tabs.Tab key="valid" value="valid" label="Vé đã mua" />
+          <Tabs.Tab key="cancelled" value="cancelled" label="Vé đã hủy" />
+        </Tabs>
 
         {loading ? (
           <Text>Đang tải...</Text>
+        ) : errorMessage ? (
+          <Text className="text-red-500">{errorMessage}</Text>
         ) : filteredBookings.length === 0 ? (
           <EmptyState
             message={activeTab === "valid" ? "Bạn chưa có vé nào" : "Bạn chưa hủy vé nào"}
@@ -160,6 +168,37 @@ function Ticket() {
           )}
         </Box>
       </Modal>
+
+      {/* Bottom Navigation */}
+      <BottomNavigation
+        fixed
+        activeKey={activeBottomTab}
+        onChange={(key) => {
+          setActiveBottomTab(key);
+          if (key === "home") navigate("/");
+          if (key === "ticket") navigate("/ticket");
+          if (key === "profile") navigate("/profiles");
+        }}
+      >
+        <BottomNavigation.Item
+          key="home"
+          label="Trang chủ"
+          icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>}
+          activeIcon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>}
+        />
+        <BottomNavigation.Item
+          key="ticket"
+          label="Vé của tôi"
+          icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" /></svg>}
+          activeIcon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" /></svg>}
+        />
+        <BottomNavigation.Item
+          key="profile"
+          label="Cá nhân"
+          icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>}
+          activeIcon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>}
+        />
+      </BottomNavigation>
     </Page>
   );
 }

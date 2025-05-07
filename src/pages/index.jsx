@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import bg from "../static/solid_white.jpg";
 import axios from "axios";
+axios.defaults.withCredentials = true; 
 
 function HomePage() {
   const [activeTab, setActiveTab] = useState("home");
