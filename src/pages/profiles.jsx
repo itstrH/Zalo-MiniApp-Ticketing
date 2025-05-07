@@ -3,6 +3,7 @@ import { Page, Input, Button, Icon, Radio, Header } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import useAuthGuard from "../hooks/useAuthGuard";
 import axios from "axios"; 
+import Logo from "../static/ZaTicLogo.jpg";
 axios.defaults.withCredentials = true; 
 
 function Profile() {
@@ -42,9 +43,9 @@ function Profile() {
       <Header title="Cá nhân" className="bg-green-400" back={() => navigate("/")} />
       <div className="flex flex-col items-center mb-8 mt-16">
         <img
-          src="https://i.pinimg.com/736x/b4/bb/b2/b4bbb2198b036fe1024571ec6b60f8b8.jpg"
+          src={Logo}
           alt="avatar"
-          className="w-24 h-24 rounded-full border-4 border-green-400 shadow-lg"
+          className="w-24 h-24 rounded-full shadow-lg"
         />
         <p className="text-sm text-center text-gray-300 mt-4 px-4">
           Cung cấp thông tin chính xác giúp bạn mua vé & xác minh dễ dàng hơn

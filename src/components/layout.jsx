@@ -37,7 +37,7 @@ const Layout = () => {
 
   return (
     <App theme={theme}>
-      <SnackbarProvider>
+      <SnackbarProvider placement="top">
         <ZMPRouter>
           <AnimationRoutes>
             <Route path="/" element={<HomePage />} />
