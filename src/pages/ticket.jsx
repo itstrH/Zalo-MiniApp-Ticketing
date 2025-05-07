@@ -135,8 +135,8 @@ function Ticket() {
           ))
         )}
       </Box>
-
-      {/* Modal QR */}
+        
+        {/* modal vé QR code */}
       <Modal
         visible={showQR}
         onClose={() => {
