@@ -4,36 +4,40 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from "../static/ZaTicLogo.jpg";
 
-// Đảm bảo axios luôn gửi cookie auth
+// đảm bảo axios luôn gửi cookie auth
 axios.defaults.withCredentials = true;
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    setLoading(true); 
+    setLoading(true);
     try {
-      const res = await axios.post(
-        'http://localhost:3001/api/login',
-        { email, password }
-      );
+      const res = await axios.post("http://localhost:3001/api/login", {
+        email,
+        password,
+      });
 
-      // Kiểm tra xem dữ liệu trả về có chứa thông tin người dùng và cookie auth không
       if (res.data && res.data.user) {
-        localStorage.setItem("user", JSON.stringify(res.data.user)); // Lưu thông tin người dùng vào localStorage
-        navigate("/");  // Chuyển hướng về trang chính sau khi đăng nhập thành công
+        const user = res.data.user;
+        localStorage.setItem("user", JSON.stringify(user));
+
+        if (user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       } else {
         setErrMsg("Thông tin đăng nhập không đúng!");
       }
     } catch (err) {
-      // Xử lý lỗi nếu có
       setErrMsg(err.response?.data?.error || "Đăng nhập thất bại");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -92,6 +96,5 @@ export default function LoginPage() {
         </div>
       </div>
     </Page>
-
   );
 }
