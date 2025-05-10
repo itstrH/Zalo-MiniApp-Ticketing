@@ -7,6 +7,8 @@ export default function AdminPage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -32,6 +34,7 @@ export default function AdminPage() {
     );
   }
 
+
   return (
     <Page className="bg-white text-black px-4">
       <Header title="Quản lý sự kiện" />
@@ -43,12 +46,12 @@ export default function AdminPage() {
         >
           Tạo sự kiện
         </button>
-        <button
-          onClick={() => alert("Chức năng xóa sự kiện sẽ được thêm sau")}
+        {/* <button
+          onClick={handleDeleteEvent}
           className="bg-red-500 text-white px-6 py-2 rounded-full shadow-md"
         >
           Xóa sự kiện
-        </button>
+        </button> */}
       </Box>
     </Page>
   );
