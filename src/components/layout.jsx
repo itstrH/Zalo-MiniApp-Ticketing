@@ -16,6 +16,8 @@ import BuyTicketPage from "./BuyTicketPage";
 import AddEvent from "./AddEvent";
 import LoginPage from "../components/LoginPage";
 import RegisterPage from "../components/RegisterPage";
+import AdminPage from "../components/AdminPage";
+
 
 const Layout = () => {
   const [theme, setTheme] = useState("light"); 
@@ -48,6 +50,7 @@ const Layout = () => {
             <Route path="/buy-ticket" element={<BuyTicketPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/admin" element={<AdminPage />} />
 
           </AnimationRoutes>
         </ZMPRouter>
