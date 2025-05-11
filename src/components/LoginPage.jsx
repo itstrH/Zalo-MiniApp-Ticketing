@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { Page, Input, Button, Header, Text, Spinner, Box } from "zmp-ui";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Page, Input, Button, Text, Spinner, Box, useSnackbar } from "zmp-ui";
+import axios from "axios";
 import logo from "../static/ZaTicLogo.jpg";
 
 // đảm bảo axios luôn gửi cookie auth
 axios.defaults.withCredentials = true;
 
 export default function LoginPage() {
+  const snackbar = useSnackbar();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -27,15 +28,35 @@ export default function LoginPage() {
         localStorage.setItem("user", JSON.stringify(user));
 
         if (user.role === "admin") {
+          snackbar.openSnackbar({
+            text: "Chào mừng admin",
+            type: "success",
+            duration: 3000,
+          });
           navigate("/admin");
         } else {
+          snackbar.openSnackbar({
+            text: "Đăng nhập thành công",
+            type: "success",
+            duration: 3000,
+          });
           navigate("/");
         }
       } else {
-        setErrMsg("Thông tin đăng nhập không đúng!");
+        // setErrMsg("Đăng nhập không thành công");
+        snackbar.openSnackbar({
+          text: "Đăng nhập không thành công",
+          type: "error",
+          duration: 2000,
+        });
       }
     } catch (err) {
-      setErrMsg(err.response?.data?.error || "Đăng nhập thất bại");
+      // setErrMsg("Đăng nhập không thành công");
+      snackbar.openSnackbar({
+        text: "Sai thông tin đăng nhập",
+        type: "error",
+        duration: 2000,
+      });
     } finally {
       setLoading(false);
     }
@@ -65,11 +86,11 @@ export default function LoginPage() {
           <Input
             type="password"
             label="Mật khẩu"
-            placeholder="Nhập mật khẩu"
+            placeholder="Nhập..."
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {errMsg && <Text className="text-red-500">{errMsg}</Text>}
+          {/* {errMsg && <Text className="text-red-500">{errMsg}</Text>} */}
 
           <Button
             onClick={handleLogin}
