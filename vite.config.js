@@ -10,7 +10,7 @@ export default defineConfig({
     autoGenerateConfig: true,
   }), react()],
   build: {
-    outDir: "../dist", 
+    outDir: "dist", 
     emptyOutDir: true,
     assetsInlineLimit: 0,
   },
