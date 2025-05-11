@@ -78,15 +78,15 @@ export default function LoginPage() {
         <div className="space-y-4">
           <Input
             type="email"
-            label="Email"
+            label=" "
             placeholder="Nhập email của bạn"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             type="password"
-            label="Mật khẩu"
-            placeholder="Nhập..."
+            label=" "
+            placeholder="Nhập mật khẩu"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

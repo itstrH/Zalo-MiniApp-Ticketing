@@ -53,33 +53,33 @@ export default function RegisterPage() {
       </Box>
       <div className="space-y-4">
         <Input
-          label="Họ tên"
+          label=" "
           placeholder="Nhập họ tên đầy đủ"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
         />
         <Input
-          label="Số điện thoại"
+          label=" "
           placeholder="Nhập số điện thoại"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
         <Input
-          label="Email"
+          label=" "
           type="email"
           placeholder="Nhập địa chỉ email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <Input
-          label="Mật khẩu"
+          label=" "
           type="password"
           placeholder="Tạo mật khẩu"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <Input
-          label="Ngày sinh"
+          label=" "
           type="date"
           value={dob}
           onChange={(e) => setDob(e.target.value)}

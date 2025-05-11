@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import { Page, Input, Button, Icon, Radio, Header } from "zmp-ui";
+import { Page, Input, Button, Icon, Radio, Header, useSnackbar } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import useAuthGuard from "../hooks/useAuthGuard";
-import axios from "axios"; 
+import axios from "axios";
 import Logo from "../static/ZaTicLogo.jpg";
-axios.defaults.withCredentials = true; 
+axios.defaults.withCredentials = true;
 
 function Profile() {
-  useAuthGuard(); 
+  useAuthGuard();
+  const snackbar = useSnackbar();
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -29,18 +30,35 @@ function Profile() {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:3001/api/logout", {}, { withCredentials: true });
+      await axios.post(
+        "http://localhost:3001/api/logout",
+        {},
+        { withCredentials: true }
+      );
       localStorage.removeItem("user");
       localStorage.removeItem("token");
+      snackbar.openSnackbar({
+        text: "Đăng xuất thành công!",
+        type: "success",
+        duration: 2000,
+      });
       navigate("/login");
     } catch (err) {
-      console.error("Lỗi khi đăng xuất", err);
+      snackbar.openSnackbar({
+        text: "Lỗi khi đăng xuất!",
+        type: "error",
+        duration: 2000,
+      });
     }
   };
 
   return (
     <Page className="bg-black min-h-screen text-white p-5">
-      <Header title="Cá nhân" className="bg-green-400" back={() => navigate("/")} />
+      <Header
+        title="Cá nhân"
+        className="bg-green-400"
+        back={() => navigate("/")}
+      />
       <div className="flex flex-col items-center mb-8 mt-16">
         <img
           src={Logo}
@@ -61,16 +79,6 @@ function Profile() {
         />
 
         <div className="flex items-center bg-white rounded-lg border border-gray-300 overflow-hidden">
-          <select
-            className="bg-gray-100 px-3 py-2 outline-none text-black text-sm border-r border-gray-300"
-            value={countryCode}
-            onChange={(e) => setCountryCode(e.target.value)}
-          >
-            <option value="+84">+84</option>
-            <option value="+1">+1</option>
-            <option value="+61">+61</option>
-          </select>
-
           <input
             type="tel"
             value={phone}
@@ -106,10 +114,20 @@ function Profile() {
 
         <div className="flex flex-col mt-2">
           <label className="mb-1 font-medium text-gray-300">Giới tính</label>
-          <Radio.Group value={gender} onChange={setGender} className="space-x-6">
-            <Radio value="male" className="text-white">Nam</Radio>
-            <Radio value="female" className="text-white">Nữ</Radio>
-            <Radio value="other" className="text-white">Khác</Radio>
+          <Radio.Group
+            value={gender}
+            onChange={setGender}
+            className="space-x-6"
+          >
+            <Radio value="male" className="text-white">
+              Nam
+            </Radio>
+            <Radio value="female" className="text-white">
+              Nữ
+            </Radio>
+            <Radio value="other" className="text-white">
+              Khác
+            </Radio>
           </Radio.Group>
         </div>
       </div>
@@ -123,7 +141,7 @@ function Profile() {
 
       <Button
         className="mt-4 w-full bg-red-500 text-white rounded-full"
-        onClick={handleLogout} 
+        onClick={handleLogout}
       >
         Đăng xuất
       </Button>
