@@ -4,11 +4,13 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  root: "./src", 
+  // root: "./src", 
   base: "./",
-  plugins: [zaloMiniApp(), react()],
+  plugins: [zaloMiniApp({
+    autoGenerateConfig: true,
+  }), react()],
   build: {
-    outDir: "../dist", 
+    outDir: "dist", 
     emptyOutDir: true,
     assetsInlineLimit: 0,
   },
