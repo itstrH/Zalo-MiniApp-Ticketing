@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Page,Text,Button,Modal,Header,Tabs,BottomNavigation } from "zmp-ui";
+import { Box, Page, Text, Button, Modal, Header, Tabs, BottomNavigation, useSnackbar } from "zmp-ui";
 import axios from "axios";
 import useAuthGuard from "../hooks/useAuthGuard";
 axios.defaults.withCredentials = true;
 
 function Ticket() {
   useAuthGuard();
+  const snackbar = useSnackbar();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showQR, setShowQR] = useState(false);
@@ -45,6 +46,11 @@ function Ticket() {
       );
       await fetchBookings();
       setActiveTab("cancelled");
+      snackbar.openSnackbar({
+      text: "Hủy vé thành công",
+      type: "error",
+      duration: 2000
+      });
     } catch (err) {
       console.error(err);
       setErrorMessage("Lỗi khi hủy vé");
