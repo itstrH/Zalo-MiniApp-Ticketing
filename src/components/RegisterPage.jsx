@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Page, Input, Button, Radio, Header, Box } from "zmp-ui";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Page, Input, Button, Radio, Header, Box, useSnackbar } from "zmp-ui";
+import axios from "axios";
 import logo from "../static/ZaTicLogo.jpg";
 
 export default function RegisterPage() {
+  const snackbar = useSnackbar();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -21,12 +22,22 @@ export default function RegisterPage() {
         email,
         password,
         gender,
-        dob
+        dob,
       });
-      alert("Đăng ký thành công!");
-      navigate("/login");
+
+      snackbar.openSnackbar({
+        text: "Đăng ký thành công!",
+        type: "success",
+        duration: 2000,
+      });
+
+      navigate("/login"); 
     } catch (err) {
-      alert("Lỗi đăng ký: " + (err.response?.data?.error || "Không xác định"));
+      snackbar.openSnackbar({
+        text: "Đăng ký không thành công!",
+        type: "error",
+        duration: 2000,
+      });
     }
   };
 
@@ -78,7 +89,10 @@ export default function RegisterPage() {
           <Radio value="female">Nữ</Radio>
           <Radio value="other">Khác</Radio>
         </Radio.Group>
-        <Button onClick={handleRegister} className="bg-green-500 w-full text-white rounded-full">
+        <Button
+          onClick={handleRegister}
+          className="bg-green-500 w-full text-white rounded-full"
+        >
           Đăng ký
         </Button>
       </div>

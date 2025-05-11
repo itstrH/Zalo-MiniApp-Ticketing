@@ -70,7 +70,7 @@ const BuyTicketPage = () => {
       setQuantity(1);
     } else {
       snackbar.openSnackbar({
-        text: "Loại vé này đã hết!",
+        text: "Loại vé này đã sold out!",
         type: "warning",
       });
     }
@@ -87,7 +87,7 @@ const BuyTicketPage = () => {
 
     if (quantity > selectedTicket.remaining_quantity) {
       snackbar.openSnackbar({
-        text: "Số lượng vé vượt quá số lượng còn lại",
+        text: "Số lượng vé vượt số lượng còn lại",
         type: "warning",
       });
       return;
