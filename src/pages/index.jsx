@@ -60,7 +60,10 @@ function HomePage() {
         <Box className="w-full px-2">
           <Swiper autoplay duration={5000} loop className="!rounded-none">
             {upcomingEvents.slice(0, 5).map((event) => (
-              <Swiper.Slide key = {event.event_id} onClick={() => handleEventClick(event)}>
+              <Swiper.Slide 
+              key = {event.event_id} 
+              onClick={() => handleEventClick(event)}
+              >
                 <img
                 src={event.banner_url}
                 className="w-full shadow-md object-cover h-[200px]"
@@ -71,7 +74,7 @@ function HomePage() {
         </Box>
 
 
-      {/* sự kiện xu hướng */}
+      {/* section sự kiện xu hướng */}
       <Text.Title size="normal" className="mt-2 px-4">
           <span role="img" aria-label="fire">🔥</span> Sự kiện xu hướng
       </Text.Title>
@@ -102,7 +105,7 @@ function HomePage() {
         </Box>
 
 
-        {/* sự kiện đặc biệt */}
+        {/* section sự kiện đặc biệt */}
         <Text.Title size="normal" className="mt-2 px-4">
           Dành cho bạn
         </Text.Title>

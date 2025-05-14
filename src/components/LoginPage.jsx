@@ -43,7 +43,6 @@ export default function LoginPage() {
           navigate("/");
         }
       } else {
-        // setErrMsg("Đăng nhập không thành công");
         snackbar.openSnackbar({
           text: "Đăng nhập không thành công",
           type: "error",
@@ -51,7 +50,6 @@ export default function LoginPage() {
         });
       }
     } catch (err) {
-      // setErrMsg("Đăng nhập không thành công");
       snackbar.openSnackbar({
         text: "Sai thông tin đăng nhập",
         type: "error",
@@ -112,7 +110,7 @@ export default function LoginPage() {
             onClick={() => navigate("/")}
             className="w-full"
           >
-            Quay lại trang chủ
+            Về trang chủ
           </Button>
         </div>
       </div>
