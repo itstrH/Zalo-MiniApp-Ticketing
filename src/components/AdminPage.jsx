@@ -1,6 +1,6 @@
 import useAdminGuard from "../hooks/useAdminGuard";
 import { useState, useEffect } from "react";
-import { Page, Box, Header, Spinner, Text, useSnackbar } from "zmp-ui";
+import { Page, Box, Spinner, Text, useSnackbar } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -60,48 +60,64 @@ export default function AdminPage() {
   };
 
   return (
-    <Page className="bg-white text-black px-4">
-      <Header title="Quản lý sự kiện" />
-      <Box className="flex flex-col gap-8 pt-2 pb-20 mt-20">
-        <Text.Title size="normal" className="mt-2 px-4">
+    <Page className="bg-white text-black px-4 pb-[100px]">
+      <Box className="fixed top-0 left-0 right-0 z-50 px-4 pt-6 pb-3 bg-white flex justify-items-starts shadow-sm">
+        <Text.Title className="text-2xl font-bold text-green-600">
+          Quản lý sự kiện
+        </Text.Title>
+      </Box>
+
+      <Box className="flex flex-col gap-4 mt-20">
+        <Text.Title size="normal" className="mb-4 px-2">
           Danh sách sự kiện đang có
         </Text.Title>
-        <Box className="flex overflow-x-auto gap-6 px-4 w-full">
-          {hotEvents.map((event) => (
+
+        {hotEvents.length === 0 ? (
+          <Text className="text-center text-gray-500 mt-10">
+            Chưa có sự kiện nào
+          </Text>
+        ) : (
+          hotEvents.map((event) => (
             <Box
               key={event.event_id}
-              className="min-w-[140px] w-[260px] bg-white dark:bg-neutral-900 rounded-xl shadow-md overflow-hidden flex-shrink-0 transition-transform hover:scale-105 cursor-pointer"
+              className="flex items-center gap-4 bg-white rounded-xl shadow-md overflow-hidden 
+              cursor-pointer hover:shadow-lg transition-shadow p-3"
             >
               <img
                 src={event.banner_url}
-                className="w-full h-[150px] object-cover"
+                alt={event.event_name}
+                className="w-[100px] h-[80px] object-cover rounded-lg flex-shrink-0"
               />
-              <Box className="p-2">
-                <Text.Title size="xSmall" className="px-1 truncate">
+              <Box className="flex flex-col flex-1 min-w-0">
+                <Text.Title
+                  size="small"
+                  className="truncate font-semibold text-black"
+                >
                   {event.event_name}
                 </Text.Title>
-                <Text className="px-1 text-base text-gray-500 truncate font-bold">
+                <Text className="text-gray-500 text-sm mt-1 truncate">
                   📅 {new Date(event.event_date).toLocaleDateString()}
                 </Text>
-                <Text className="px-1 text-base text-gray-500 mb-2 truncate">
+                <Text className="text-gray-500 text-sm truncate">
                   🕒 {event.event_time}
                 </Text>
               </Box>
             </Box>
-          ))}
-        </Box>
+          ))
+        )}
       </Box>
-      <Box className="flex flex-col items-center justify-center w-full gap-3">
+
+      <Box className="fixed bottom-4 left-0 right-0 px-4 flex justify-center gap-4 z-50">
         <button
           onClick={() => navigate("/add-event")}
-          className="bg-green-500 text-white px-6 py-2 rounded-full shadow-md w-[200px]"
+          className="w-[200px] bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition"
         >
           Thêm sự kiện
         </button>
 
         <button
           onClick={handleLogout}
-          className="bg-red-500 text-white px-6 py-2 rounded-full shadow-md w-[200px]"
+          className="w-[200px] bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition"
         >
           Đăng xuất
         </button>
