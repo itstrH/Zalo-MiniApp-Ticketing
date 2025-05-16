@@ -60,8 +60,10 @@ export default function AdminPage() {
   };
 
   return (
-    <Page className="bg-white text-black px-4">
-      <Header title="Quản lý sự kiện" />
+    <Page className="bg-white text-black ">
+      <div className="w-full bg-green-500 text-black h-16 flex items-end px-4 pb-2">
+        <span className="text-base font-bold">Quản lý sự kiện - admin</span>
+      </div>
       <Box className="flex flex-col gap-8 pt-2 pb-20 mt-20">
         <Text.Title size="normal" className="mt-2 px-4">
           Danh sách sự kiện đang có
