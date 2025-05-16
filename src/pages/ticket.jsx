@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Page, Text, Button, Modal, Header, Tabs, BottomNavigation, useSnackbar } from "zmp-ui";
+import {
+  Box,
+  Page,
+  Text,
+  Button,
+  Modal,
+  Header,
+  Tabs,
+  BottomNavigation,
+  useSnackbar,
+} from "zmp-ui";
 import axios from "axios";
 import useAuthGuard from "../hooks/useAuthGuard";
 axios.defaults.withCredentials = true;
@@ -39,18 +49,20 @@ function Ticket() {
 
   const handleCancelBooking = async (bookingId) => {
     try {
+      // setActiveTab("cancelled");
       await axios.put(
         `http://localhost:3001/api/bookings/cancel/${bookingId}`,
         null,
         { withCredentials: true }
       );
-      await fetchBookings();
-      setActiveTab("cancelled");
+
       snackbar.openSnackbar({
-      text: "Hủy vé thành công",
-      type: "error",
-      duration: 2000
+        text: "Hủy vé thành công",
+        type: "error",
+        duration: 2000,
       });
+
+      await fetchBookings();
     } catch (err) {
       console.error(err);
       setErrorMessage("Lỗi khi hủy vé");
@@ -105,7 +117,7 @@ function Ticket() {
           <EmptyState
             message={
               activeTab === "valid"
-                ? "Bạn chưa có vé nào"
+                ? "Bạn chưa mua vé nào"
                 : "Bạn chưa hủy vé nào"
             }
           />

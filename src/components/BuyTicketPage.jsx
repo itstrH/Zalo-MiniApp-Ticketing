@@ -111,8 +111,8 @@ const BuyTicketPage = () => {
         type: "success",
         duration: 3000,
       });
-
       navigate("/ticket");
+      
     } catch (err) {
       console.error(err);
       if (err.response?.status === 401) {
