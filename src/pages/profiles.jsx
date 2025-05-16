@@ -15,7 +15,6 @@ function Profile() {
   const [email, setEmail] = useState("");
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("male");
-  const [countryCode, setCountryCode] = useState("+84");
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
