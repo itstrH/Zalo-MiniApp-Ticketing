@@ -61,7 +61,7 @@ export default function AdminPage() {
     }
   };
 
-  const handleDeleteEvent = async (eventId) => {
+  const handleDeleteEvent = async (selectedEventId) => {
     try {
       await axios.delete(`http://localhost:3001/api/events/${selectedEventId}`);
       snackbar.openSnackbar({
@@ -87,8 +87,8 @@ export default function AdminPage() {
 
   return (
     <Page className="bg-white text-black px-4 pb-[100px]">
-      <Box className="fixed top-0 left-0 right-0 z-50 px-4 pt-6 pb-3 bg-white flex justify-items-starts shadow-sm">
-        <Text.Title className="text-2xl font-bold text-green-600">
+      <Box className="fixed top-0 left-0 right-0 z-50 px-4 pt-6 pb-3 bg-green-400 flex justify-items-starts shadow-sm">
+        <Text.Title className="text-2xl font-bold text-black">
           Quản lý sự kiện
         </Text.Title>
       </Box>
@@ -133,7 +133,7 @@ export default function AdminPage() {
                   setSelectedEventId(event.event_id);
                   setIsSheetOpen(true);
                 }}
-                className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-md"
+                className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-3 py-1 rounded-md"
               >
                 Xóa
               </button>
@@ -145,14 +145,14 @@ export default function AdminPage() {
       <Box className="fixed bottom-4 left-0 right-0 px-4 flex justify-center gap-4 z-50">
         <button
           onClick={() => navigate("/add-event")}
-          className="w-[200px] bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition"
+          className="w-[200px] bg-green-500 hover:bg-green-600 text-black font-semibold px-8 py-3 rounded-full shadow-lg transition"
         >
           Thêm sự kiện
         </button>
 
         <button
           onClick={handleLogout}
-          className="w-[200px] bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition"
+          className="w-[200px] bg-red-500 hover:bg-red-600 text-black font-semibold px-8 py-3 rounded-full shadow-lg transition"
         >
           Đăng xuất
         </button>
@@ -163,21 +163,30 @@ export default function AdminPage() {
         onClose={() => setIsSheetOpen(false)}
         title="Xác nhận xóa sự kiện"
       >
-        <Box className="flex flex-col justify-center gap-3 mt-4">
+        <Box className="flex flex-col gap-4 mt-4">
           <Box className="flex flex-col justify-center items-center mb-10">
-            <Text.Title className="text-center pb-4">
+            <Text.Title className="text-center mb-6">
               Bạn có chắc chắn muốn xóa sự kiện này?
             </Text.Title>
-            <p className="text-red-500 font-semibold">Lưu ý: không thể hoàn tác.</p>
+            <p className="text-red-500 font-semibold text-base">
+              Lưu ý: Khi đã xóa sẽ không thể hoàn tác.
+            </p>
           </Box>
-          <Box className="flex justify-center gap-3">
-            <Button fullWidth type="neutral" variant="secondary" onClick={() => setIsSheetOpen(false)}>
-              Hủy
-            </Button>
-            <Button fullWidth variant="danger" onClick={handleDeleteEvent}>
-              Xóa
-            </Button>
-          </Box>
+
+          <Button 
+            className="text-base mx-2"
+            type="danger" 
+            onClick={()=> handleDeleteEvent(selectedEventId)}>
+            Xóa
+          </Button>
+          <Button
+            className="text-base mx-2"
+            type="neutral"
+            variant="secondary"
+            onClick={() => setIsSheetOpen(false)}
+          >
+            Hủy
+          </Button>
         </Box>
       </Sheet>
     </Page>

@@ -15,7 +15,7 @@ const EventDetail = () => {
 
     useEffect(() => {
         if (!eventId) {
-            setError("Không tìm thấy ID sự kiện.");
+            setError("Không tìm thấy Event");
             setLoading(false);
             return;
         }
@@ -32,7 +32,7 @@ const EventDetail = () => {
                 const price = ticketRes.data?.[0]?.price_vnd || 0;
                 setTicketPrice(price);
             } catch (err) {
-                setError("Lỗi khi tải chi tiết sự kiện.");
+                setError("Lỗi tải chi tiết sự kiện");
             } finally {
                 setLoading(false);
             }
@@ -103,7 +103,8 @@ const EventDetail = () => {
 
   
                 <Button
-                    className="bg-green-500 w-full flex justify-center text-white rounded-full pt-4"
+                    fullWidth
+                    className="bg-green-500 text-white text-base"
                     onClick={() => navigate("/buy-ticket", { state: { eventId: event.event_id } })}
                 >
                     Mua vé ngay
