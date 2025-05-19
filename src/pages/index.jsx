@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Page, Text, Swiper, Header, BottomNavigation } from "zmp-ui";
+import {
+  Box,
+  Page,
+  Text,
+  Swiper,
+  Header,
+  BottomNavigation,
+  Input,
+} from "zmp-ui";
 import bg from "../static/solid_white.jpg";
 import axios from "axios";
 axios.defaults.withCredentials = true;
@@ -10,6 +18,21 @@ function HomePage() {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [hotEvents, setHotEvents] = useState([]);
   const navigate = useNavigate();
+
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [filteredEvents, setFilteredEvents] = useState([]);
+
+  const handleSearch = (searchVal) => {
+    setSearchKeyword(searchVal);
+    if (!searchVal) {
+      setFilteredEvents([]);
+      return;
+    }
+    const filtered = upcomingEvents.filter((event) =>
+      event.event_name.toLowerCase().includes(searchVal.toLowerCase())
+    );
+    setFilteredEvents(filtered);
+  };
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -50,6 +73,50 @@ function HomePage() {
       }}
     >
       <Header title="Za Ticketing" className="bg-green-400" />
+
+      <Box className="px-4 mt-3">
+        <Input
+          placeholder="Bạn tìm gì hôm nay?"
+          clearable
+          onChange={(e) => handleSearch(e.target.value)}
+        />
+      </Box>
+
+      {searchKeyword && (
+        <Box className="px-4 mt-4 flex flex-col gap-4">
+          {filteredEvents.length > 0 ? (
+            filteredEvents.map((event) => (
+              <Box
+                key={event.event_id}
+                onClick={() => handleEventClick(event)}
+                className="flex items-center gap-4 p-2 bg-white dark:bg-neutral-900 rounded-lg shadow cursor-pointer hover:bg-gray-100"
+              >
+                <img
+                  src={event.banner_url}
+                  alt={event.event_name}
+                  className="w-20 h-20 object-cover rounded shrink-0"
+                />
+                <Box className="flex flex-col overflow-hidden">
+                  <Text.Title
+                    size="xSmall"
+                    className="font-medium truncate max-w-[220px] sm:max-w-[300px]"
+                  >
+                    {event.event_name}
+                  </Text.Title>
+                  <Text className="text-sm text-gray-500 truncate max-w-[220px] sm:max-w-[300px]">
+                    📅 {new Date(event.event_date).toLocaleDateString()} - 🕒{" "}
+                    {event.event_time}
+                  </Text>
+                </Box>
+              </Box>
+            ))
+          ) : (
+            <Text className="text-center text-gray-500 mt-2">
+              Rất tiếc, không tìm thấy kết quả nào.
+            </Text>
+          )}
+        </Box>
+      )}
 
       <Box className="flex flex-col gap-8 pt-2 pb-20">
         <Text.Title size="normal" className="mt-4 px-4">
