@@ -6,15 +6,76 @@ import logo from "../static/ZaTicLogo.jpg";
 
 export default function RegisterPage() {
   const snackbar = useSnackbar();
+  const navigate = useNavigate();
+
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("male");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Trạng thái lỗi
+  const [errors, setErrors] = useState({
+    fullName: false,
+    phone: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+    dob: false,
+  });
 
   const handleRegister = async () => {
+    const phoneRegex = /^(03|05|07|08|09)\d{8}$/;
+    const isGmail = email.endsWith("@gmail.com");
+
+    const newErrors = {
+      fullName: !fullName,
+      phone: !phone || !phoneRegex.test(phone),
+      email: !email || !isGmail,
+      password: !password || password.length < 6,
+      confirmPassword: confirmPassword !== password,
+      dob: !dob,
+    };
+
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some(Boolean)) {
+      if (newErrors.fullName || newErrors.dob) {
+        snackbar.openSnackbar({
+          text: "Vui lòng điền đầy đủ thông tin!",
+          type: "error",
+          duration: 2000,
+        });
+      } else if (newErrors.email) {
+        snackbar.openSnackbar({
+          text: "Email phải là địa chỉ Gmail hợp lệ!",
+          type: "error",
+          duration: 2000,
+        });
+      } else if (newErrors.phone) {
+        snackbar.openSnackbar({
+          text: "Số điện thoại không hợp lệ!",
+          type: "error",
+          duration: 2000,
+        });
+      } else if (newErrors.password) {
+        snackbar.openSnackbar({
+          text: "Mật khẩu phải có ít nhất 6 ký tự!",
+          type: "error",
+          duration: 2000,
+        });
+      } else if (newErrors.confirmPassword) {
+        snackbar.openSnackbar({
+          text: "Mật khẩu xác nhận không khớp!",
+          type: "error",
+          duration: 2000,
+        });
+      }
+      return;
+    }
+
     try {
       await axios.post("http://localhost:3001/api/register", {
         full_name: fullName,
@@ -31,7 +92,7 @@ export default function RegisterPage() {
         duration: 2000,
       });
 
-      navigate("/login"); 
+      navigate("/login");
     } catch (err) {
       snackbar.openSnackbar({
         text: "Đăng ký không thành công!",
@@ -53,36 +114,45 @@ export default function RegisterPage() {
       </Box>
       <div className="space-y-4">
         <Input
-          label=" "
-          placeholder="Nhập họ tên đầy đủ"
+          placeholder="Nhập họ tên"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
+          className={errors.fullName ? "border border-red-500 rounded-md" : ""}
         />
         <Input
-          label=" "
           placeholder="Nhập số điện thoại"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          className={errors.phone ? "border border-red-500 rounded-md" : ""}
         />
         <Input
-          label=" "
           type="email"
           placeholder="Nhập địa chỉ email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className={errors.email ? "border border-red-500 rounded-md" : ""}
         />
         <Input
-          label=" "
           type="password"
-          placeholder="Tạo mật khẩu"
+          placeholder="Tạo mật khẩu (ít nhất 6 ký tự)"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className={errors.password ? "border border-red-500 rounded-md" : ""}
         />
         <Input
-          label=" "
+          type="password"
+          placeholder="Nhập lại mật khẩu"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          className={
+            errors.confirmPassword ? "border border-red-500 rounded-md" : ""
+          }
+        />
+        <Input
           type="date"
           value={dob}
           onChange={(e) => setDob(e.target.value)}
+          className={errors.dob ? "border border-red-500 rounded-md" : ""}
         />
         <Radio.Group value={gender} onChange={setGender}>
           <Radio value="male">Nam</Radio>
