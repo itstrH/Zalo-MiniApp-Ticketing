@@ -26,7 +26,7 @@ export default function RegisterPage() {
   });
 
   const handleRegister = async () => {
-    const phoneRegex = /^(03|05|07|08|09)\d{8}$/;
+    const phoneRegex = /^(03|05|07|08|09)\d{8}$/; 
     const isGmail = email.endsWith("@gmail.com");
 
     const newErrors = {

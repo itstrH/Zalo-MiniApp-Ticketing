@@ -10,6 +10,7 @@ import {
   Tabs,
   BottomNavigation,
   useSnackbar,
+  Sheet,
 } from "zmp-ui";
 import axios from "axios";
 import useAuthGuard from "../hooks/useAuthGuard";
@@ -26,6 +27,8 @@ function Ticket() {
   const [errorMessage, setErrorMessage] = useState("");
   const [activeBottomTab, setActiveBottomTab] = useState("ticket");
   const navigate = useNavigate();
+  const [showCancelSheet, setShowCancelSheet] = useState(false);
+  const [bookingToCancel, setBookingToCancel] = useState(null);
 
   useEffect(() => {
     fetchBookings();
@@ -45,6 +48,11 @@ function Ticket() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const confirmCancelBooking = (booking) => {
+    setBookingToCancel(booking);
+    setShowCancelSheet(true);
   };
 
   const handleCancelBooking = async (bookingId) => {
@@ -156,7 +164,7 @@ function Ticket() {
                 <Box className="mt-4 grid grid-cols-2 gap-3">
                   <Button
                     className="bg-gray-200 text-black rounded-full flex justify-center"
-                    onClick={() => handleCancelBooking(ticket.booking_id)}
+                    onClick={() => confirmCancelBooking(ticket)}
                   >
                     Hủy vé
                   </Button>
@@ -332,6 +340,47 @@ function Ticket() {
           }
         />
       </BottomNavigation>
+
+      <Sheet
+        visible={showCancelSheet}
+        onClose={() => setShowCancelSheet(false)}
+        title="Xác nhận hủy vé"
+        closable
+      >
+        <Box className="p-4 space-y-4">
+          {bookingToCancel && (
+            <Text className="text-xl text-gray-700 font-bold pb-5">
+              {bookingToCancel.event_name}
+            </Text>
+          )}
+
+          <p className="text-red-500 text-center font-bold text-base pb-5">
+            Lưu ý: Khi đã hủy vé sẽ không thể hoàn tác.
+          </p>
+
+          <Box className="flex justify-center gap-5">
+            <Button
+              fullWidth type="neutral" variant="secondary"
+              onClick={() => setShowCancelSheet(false)}
+            >
+              Huỷ bỏ
+            </Button>
+            <Button
+              type="danger"
+              fullWidth
+              onClick={async () => {
+                if (bookingToCancel) {
+                  await handleCancelBooking(bookingToCancel.booking_id);
+                  setShowCancelSheet(false);
+                  setBookingToCancel(null);
+                }
+              }}
+            >
+              Xác nhận hủy
+            </Button>
+          </Box>
+        </Box>
+      </Sheet>
     </Page>
   );
 }
