@@ -1,14 +1,16 @@
 import useAdminGuard from "../hooks/useAdminGuard";
-import { useState, useEffect } from "react";
-import { Page, Box, Spinner, Text, useSnackbar } from "zmp-ui";
+import { useState, useEffect, use } from "react";
+import { Page, Box, Spinner, Text, useSnackbar, Sheet, Button } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function AdminPage() {
-  const { loading } = useAdminGuard();
+  // const { loading } = useAdminGuard();
   const navigate = useNavigate();
   const snackbar = useSnackbar();
   const [hotEvents, setHotEvents] = useState([]);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -25,15 +27,15 @@ export default function AdminPage() {
     fetchEvents();
   }, []);
 
-  if (loading) {
-    return (
-      <Page className="bg-white text-black px-4">
-        <Box className="pt-10 flex justify-center">
-          <Spinner visible />
-        </Box>
-      </Page>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Page className="bg-white text-black px-4">
+  //       <Box className="pt-10 flex justify-center">
+  //         <Spinner visible />
+  //       </Box>
+  //     </Page>
+  //   );
+  // }
 
   const handleLogout = async () => {
     try {
@@ -56,6 +58,30 @@ export default function AdminPage() {
         type: "error",
         duration: 2000,
       });
+    }
+  };
+
+  const handleDeleteEvent = async (eventId) => {
+    try {
+      await axios.delete(`http://localhost:3001/api/events/${selectedEventId}`);
+      snackbar.openSnackbar({
+        text: "Xóa sự kiện thành công!",
+        type: "success",
+        duration: 2000,
+      });
+      setHotEvents((prev) =>
+        prev.filter((e) => e.event_id !== selectedEventId)
+      );
+    } catch (error) {
+      console.error("Lỗi khi xóa sự kiện:", error);
+      snackbar.openSnackbar({
+        text: "Lỗi khi xóa sự kiện!",
+        type: "error",
+        duration: 2000,
+      });
+    } finally {
+      setIsSheetOpen(false);
+      setSelectedEventId(null);
     }
   };
 
@@ -102,6 +128,15 @@ export default function AdminPage() {
                   🕒 {event.event_time}
                 </Text>
               </Box>
+              <button
+                onClick={() => {
+                  setSelectedEventId(event.event_id);
+                  setIsSheetOpen(true);
+                }}
+                className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-md"
+              >
+                Xóa
+              </button>
             </Box>
           ))
         )}
@@ -122,6 +157,29 @@ export default function AdminPage() {
           Đăng xuất
         </button>
       </Box>
+
+      <Sheet
+        visible={isSheetOpen}
+        onClose={() => setIsSheetOpen(false)}
+        title="Xác nhận xóa sự kiện"
+      >
+        <Box className="flex flex-col justify-center gap-3 mt-4">
+          <Box className="flex flex-col justify-center items-center mb-10">
+            <Text.Title className="text-center pb-4">
+              Bạn có chắc chắn muốn xóa sự kiện này?
+            </Text.Title>
+            <p className="text-red-500 font-semibold">Lưu ý: không thể hoàn tác.</p>
+          </Box>
+          <Box className="flex justify-center gap-3">
+            <Button fullWidth type="neutral" variant="secondary" onClick={() => setIsSheetOpen(false)}>
+              Hủy
+            </Button>
+            <Button fullWidth variant="danger" onClick={handleDeleteEvent}>
+              Xóa
+            </Button>
+          </Box>
+        </Box>
+      </Sheet>
     </Page>
   );
 }

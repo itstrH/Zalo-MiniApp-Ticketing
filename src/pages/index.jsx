@@ -11,6 +11,8 @@ function HomePage() {
   const [hotEvents, setHotEvents] = useState([]);
   const navigate = useNavigate();
 
+
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
