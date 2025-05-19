@@ -157,16 +157,16 @@ const BuyTicketPage = () => {
         <Text.Title size="large" className="mb-2">
           {event.event_name}
         </Text.Title>
-        <Text className="text-gray-500 mb-1">
-          <strong>Ngày:</strong>{" "}
+        <Text className="text-gray-600 mb-2 text-base">
+          <strong>Ngày:{" "}</strong>
           {new Date(event.event_date).toLocaleDateString()}
         </Text>
-        <Text className="text-gray-500 mb-1">
+        <Text className="text-gray-600 mb-1 text-base">
           <strong>Địa điểm:</strong> {event.event_location}
         </Text>
 
-        <Box className="mb-4">
-          <Text strong className="block mb-2">
+        <Box className="mb-8 mt-8">
+          <Text className="block mb-4 text-base font-bold">
             Chọn loại vé:
           </Text>
           <Box className="grid grid-cols-2 gap-3">
@@ -184,11 +184,11 @@ const BuyTicketPage = () => {
                     : ""
                 }`}
               >
-                <Text className="block font-medium">{t.ticket_type}</Text>
-                <Text className="text-sm text-gray-500">
-                  {t.price_vnd.toLocaleString()} VND
+                <Text className="block font-medium mb-2">{t.ticket_type}</Text>
+                <Text className="text-green-700">
+                  {(t.price_vnd).toLocaleString()} VND
                 </Text>
-                <Text className="text-xs text-red-500 mt-1">
+                <Text className="text-xs text-red-500 mt-2">
                   {t.remaining_quantity > 0
                     ? `Còn lại: ${t.remaining_quantity}`
                     : "Hết vé"}
@@ -199,7 +199,7 @@ const BuyTicketPage = () => {
         </Box>
 
         <Box className="flex items-center gap-4 mb-4">
-          <Text strong>Số lượng vé:</Text>
+          <Text className="font-bold text-base">Số lượng vé:</Text>
           <Button
             onClick={handleDecrease}
             disabled={quantity <= 1}
@@ -223,12 +223,11 @@ const BuyTicketPage = () => {
         </Box>
 
         <Text className="text-base font-bold mb-4">
-          Tổng tiền: {(selectedTicket.price_vnd * quantity).toLocaleString()}{" "}
-          VND
+          Tổng tiền: {(selectedTicket.price_vnd * quantity).toLocaleString()} VND
         </Text>
 
         <Box className="mb-6">
-          <Text strong className="mb-2 block text-base text-red-600">
+          <Text className="mb-4 font-bold block text-base text-red-600">
             Thanh toán:
           </Text>
           <Box className="grid grid-cols-2 gap-4 mt-2">

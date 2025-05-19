@@ -18,7 +18,6 @@ function HomePage() {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [hotEvents, setHotEvents] = useState([]);
   const navigate = useNavigate();
-
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredEvents, setFilteredEvents] = useState([]);
 
