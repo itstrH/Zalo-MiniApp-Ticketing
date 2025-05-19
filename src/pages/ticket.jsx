@@ -57,15 +57,19 @@ function Ticket() {
       );
 
       snackbar.openSnackbar({
-        text: "Hủy vé thành công",
-        type: "error",
+        text: "Đã hủy vé",
+        type: "success",
         duration: 2000,
       });
 
       await fetchBookings();
     } catch (err) {
       console.error(err);
-      setErrorMessage("Lỗi khi hủy vé");
+      snackbar.openSnackbar({
+        text: "Đã hủy vé",
+        type: "error",
+        duration: 2000,
+      });
     }
   };
 
@@ -73,7 +77,7 @@ function Ticket() {
     <Box className="flex flex-col items-center justify-center py-12 space-y-4">
       <img
         src="https://cdn3d.iconscout.com/3d/premium/thumb/no-voucher-3d-icon-download-in-png-blend-fbx-gltf-file-formats--coupon-ticket-not-available-tickets-sold-out-empty-states-pack-mobile-interface-icons-6995796.png?f=webp"
-        alt="empty"
+        alt="empty ticket state"
         className="w-40 h-40 object-contain"
       />
       <Text size="large" className="text-center font-medium">
