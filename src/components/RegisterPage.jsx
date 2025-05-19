@@ -16,7 +16,6 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Trạng thái lỗi
   const [errors, setErrors] = useState({
     fullName: false,
     phone: false,
@@ -94,11 +93,20 @@ export default function RegisterPage() {
 
       navigate("/login");
     } catch (err) {
-      snackbar.openSnackbar({
-        text: "Đăng ký không thành công!",
-        type: "error",
-        duration: 2000,
-      });
+      if (err.response && err.response.status === 409) {
+        snackbar.openSnackbar({
+          text: "Tên người dùng hoặc email đã tồn tại!",
+          type: "error",
+          duration: 2000,
+        });
+        setErrors((prev) => ({ ...prev, email: true, fullName: true }));
+      } else {
+        snackbar.openSnackbar({
+          text: "Đăng ký không thành công!",
+          type: "error",
+          duration: 2000,
+        });
+      }
     }
   };
 
