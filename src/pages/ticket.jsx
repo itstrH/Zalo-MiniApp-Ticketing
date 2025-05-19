@@ -10,6 +10,7 @@ import {
   Tabs,
   BottomNavigation,
   useSnackbar,
+  Sheet,
 } from "zmp-ui";
 import axios from "axios";
 import useAuthGuard from "../hooks/useAuthGuard";
@@ -26,6 +27,8 @@ function Ticket() {
   const [errorMessage, setErrorMessage] = useState("");
   const [activeBottomTab, setActiveBottomTab] = useState("ticket");
   const navigate = useNavigate();
+  const [showCancelSheet, setShowCancelSheet] = useState(false);
+  const [bookingToCancel, setBookingToCancel] = useState(null);
 
   useEffect(() => {
     fetchBookings();
@@ -40,11 +43,16 @@ function Ticket() {
       setBookings(res.data);
       setErrorMessage("");
     } catch (err) {
-      console.error("Lỗi khi lấy danh sách bookings:", err);
+      console.error(err);
       setErrorMessage("Không thể lấy dữ liệu vé");
     } finally {
       setLoading(false);
     }
+  };
+
+  const confirmCancelBooking = (booking) => {
+    setBookingToCancel(booking);
+    setShowCancelSheet(true);
   };
 
   const handleCancelBooking = async (bookingId) => {
@@ -66,7 +74,7 @@ function Ticket() {
     } catch (err) {
       console.error(err);
       snackbar.openSnackbar({
-        text: "Đã hủy vé",
+        text: "Hủy vé không thành công",
         type: "error",
         duration: 2000,
       });
@@ -100,7 +108,7 @@ function Ticket() {
   );
 
   return (
-    <Page className="bg-white">
+    <Page className="bg-white mb-12">
       <Header
         title="Vé của tôi"
         leftButton={() => navigate("/")}
@@ -156,7 +164,7 @@ function Ticket() {
                 <Box className="mt-4 grid grid-cols-2 gap-3">
                   <Button
                     className="bg-gray-200 text-black rounded-full flex justify-center"
-                    onClick={() => handleCancelBooking(ticket.booking_id)}
+                    onClick={() => confirmCancelBooking(ticket)}
                   >
                     Hủy vé
                   </Button>
@@ -332,6 +340,48 @@ function Ticket() {
           }
         />
       </BottomNavigation>
+
+      <Sheet
+        visible={showCancelSheet}
+        onClose={() => setShowCancelSheet(false)}
+        title="Xác nhận hủy vé"
+        closable
+      >
+        <Box className="p-4 flex flex-col">
+          {bookingToCancel && (
+            <Text className="text-xl text-gray-700 font-bold pb-5">
+              {bookingToCancel.event_name}
+            </Text>
+          )}
+
+          <p className="text-red-500 text-center font-bold text-base pb-5">
+            Lưu ý: Khi đã hủy vé sẽ không thể hoàn tác.
+          </p>
+
+          <Button
+          className="mb-4 text-base"
+            type="danger"
+            onClick={async () => {
+              if (bookingToCancel) {
+                await handleCancelBooking(bookingToCancel.booking_id);
+                setShowCancelSheet(false);
+                setBookingToCancel(null);
+              }
+            }}
+          >
+            Xác nhận hủy
+          </Button>
+
+          <Button
+          className="text-base"
+            type="neutral"
+            variant="secondary"
+            onClick={() => setShowCancelSheet(false)}
+          >
+            Huỷ bỏ
+          </Button>
+        </Box>
+      </Sheet>
     </Page>
   );
 }
