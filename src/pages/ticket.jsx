@@ -43,7 +43,7 @@ function Ticket() {
       setBookings(res.data);
       setErrorMessage("");
     } catch (err) {
-      console.error("Lỗi khi lấy danh sách bookings:", err);
+      console.error(err);
       setErrorMessage("Không thể lấy dữ liệu vé");
     } finally {
       setLoading(false);
@@ -74,7 +74,7 @@ function Ticket() {
     } catch (err) {
       console.error(err);
       snackbar.openSnackbar({
-        text: "Đã hủy vé",
+        text: "Hủy vé không thành công",
         type: "error",
         duration: 2000,
       });
@@ -108,7 +108,7 @@ function Ticket() {
   );
 
   return (
-    <Page className="bg-white">
+    <Page className="bg-white mb-12">
       <Header
         title="Vé của tôi"
         leftButton={() => navigate("/")}
@@ -347,7 +347,7 @@ function Ticket() {
         title="Xác nhận hủy vé"
         closable
       >
-        <Box className="p-4 space-y-4">
+        <Box className="p-4 flex flex-col">
           {bookingToCancel && (
             <Text className="text-xl text-gray-700 font-bold pb-5">
               {bookingToCancel.event_name}
@@ -358,27 +358,28 @@ function Ticket() {
             Lưu ý: Khi đã hủy vé sẽ không thể hoàn tác.
           </p>
 
-          <Box className="flex justify-center gap-5">
-            <Button
-              fullWidth type="neutral" variant="secondary"
-              onClick={() => setShowCancelSheet(false)}
-            >
-              Huỷ bỏ
-            </Button>
-            <Button
-              type="danger"
-              fullWidth
-              onClick={async () => {
-                if (bookingToCancel) {
-                  await handleCancelBooking(bookingToCancel.booking_id);
-                  setShowCancelSheet(false);
-                  setBookingToCancel(null);
-                }
-              }}
-            >
-              Xác nhận hủy
-            </Button>
-          </Box>
+          <Button
+          className="mb-4 text-base"
+            type="danger"
+            onClick={async () => {
+              if (bookingToCancel) {
+                await handleCancelBooking(bookingToCancel.booking_id);
+                setShowCancelSheet(false);
+                setBookingToCancel(null);
+              }
+            }}
+          >
+            Xác nhận hủy
+          </Button>
+
+          <Button
+          className="text-base"
+            type="neutral"
+            variant="secondary"
+            onClick={() => setShowCancelSheet(false)}
+          >
+            Huỷ bỏ
+          </Button>
         </Box>
       </Sheet>
     </Page>
