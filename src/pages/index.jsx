@@ -5,7 +5,6 @@ import {
   Page,
   Text,
   Swiper,
-  Header,
   BottomNavigation,
   Input,
 } from "zmp-ui";
@@ -17,9 +16,9 @@ function HomePage() {
   const [activeTab, setActiveTab] = useState("home");
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [hotEvents, setHotEvents] = useState([]);
-  const navigate = useNavigate();
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredEvents, setFilteredEvents] = useState([]);
+  const navigate = useNavigate();
 
   const handleSearch = (searchVal) => {
     setSearchKeyword(searchVal);
@@ -64,21 +63,34 @@ function HomePage() {
 
   return (
     <Page
-      className="pt-16 min-h-screen bg-white dark:bg-black"
+      className="pt-7 min-h-screen bg-white dark:bg-black"
       style={{
         backgroundImage: `url(${bg})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Header title="Za Ticketing" className="bg-green-400" />
+      <Box p={4}>
+        <Box>
+          <Text size="large" className="font-bold text-4xl" style={{ color: "#000" }}>
+            ZA{' '}
+          </Text>
+          <Text size="large" className="font-bold text-4xl" style={{ color: "#50dc84" }}>
+            TICKETING
+          </Text>
+        </Box>
+      </Box>
 
-      <Box className="px-4 mt-3">
-        <Input
-          placeholder="Bạn tìm gì hôm nay?"
-          clearable
-          onChange={(e) => handleSearch(e.target.value)}
-        />
+      <Box className="px-4">
+        <Box className="relative flex items-center bg-white border border-gray-300 rounded-full px-4 shadow-sm">
+          <span className="text-xl mr-3">🔍</span>
+          <Input
+            placeholder="Bạn tìm gì hôm nay?"
+            clearable
+            className="flex-1 text-sm bg-transparent border-none outline-none placeholder-gray-400"
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+        </Box>
       </Box>
 
       {searchKeyword && (
@@ -103,8 +115,7 @@ function HomePage() {
                     {event.event_name}
                   </Text.Title>
                   <Text className="text-sm text-gray-500 truncate max-w-[220px] sm:max-w-[300px]">
-                    📅 {new Date(event.event_date).toLocaleDateString()} - 🕒{" "}
-                    {event.event_time}
+                    📅 {new Date(event.event_date).toLocaleDateString()} - 🕒 {event.event_time}
                   </Text>
                 </Box>
               </Box>
@@ -117,12 +128,14 @@ function HomePage() {
         </Box>
       )}
 
-      <Box className="flex flex-col gap-8 pt-2 pb-20">
+      {/* section sự kiện sắp diễn ra */}
+      <Box className="flex flex-col gap-6 pt-2 pb-20">
         <Text.Title size="normal" className="mt-4 px-4">
-          Sự kiện sắp diễn ra
+          📅 Sự kiện sắp diễn ra
         </Text.Title>
-        <Box className="w-full px-2">
-          <Swiper autoplay duration={5000} loop className="!rounded-none">
+
+        <Box className="w-full px-4">
+          <Swiper autoplay duration={5000} loop className="rounded-xl overflow-hidden">
             {upcomingEvents.slice(0, 5).map((event) => (
               <Swiper.Slide
                 key={event.event_id}
@@ -130,7 +143,8 @@ function HomePage() {
               >
                 <img
                   src={event.banner_url}
-                  className="w-full shadow-md object-cover h-[200px]"
+                  alt={event.event_name}
+                  className="w-full h-[200px] object-cover rounded-xl shadow-md"
                 />
               </Swiper.Slide>
             ))}
@@ -138,12 +152,17 @@ function HomePage() {
         </Box>
 
         {/* section sự kiện xu hướng */}
-        <Text.Title size="normal" className="mt-2 px-4">
-          <span role="img" aria-label="fire">
-            🔥
-          </span>{" "}
-          Sự kiện xu hướng
-        </Text.Title>
+        <Box className="flex items-center justify-between mt-2 px-4">
+          <Text.Title size="normal">🔥 Sự kiện xu hướng</Text.Title>
+          <Text
+            size="small"
+            className="text-green-600 font-medium cursor-pointer"
+            onClick={() => navigate('/hot-events')}
+          >
+            Xem tất cả
+          </Text>
+        </Box>
+
         <Box className="flex overflow-x-auto gap-6 px-4 w-full">
           {hotEvents.slice(0, 5).map((event) => (
             <Box
@@ -171,9 +190,17 @@ function HomePage() {
         </Box>
 
         {/* section sự kiện đặc biệt */}
-        <Text.Title size="normal" className="mt-2 px-4">
-          Dành cho bạn
-        </Text.Title>
+        <Box className="flex items-center justify-between mt-2 px-4">
+          <Text.Title size="normal">Dành cho bạn</Text.Title>
+          <Text
+            size="small"
+            className="text-green-600 font-medium cursor-pointer"
+            onClick={() => navigate('/for-you')}
+          >
+            Xem tất cả
+          </Text>
+        </Box>
+
         <Box className="flex overflow-x-auto gap-6 px-4 w-full">
           {upcomingEvents.slice(2, 10).map((event) => (
             <Box
@@ -205,110 +232,20 @@ function HomePage() {
         <BottomNavigation.Item
           key="home"
           label="Trang chủ"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-              />
-            </svg>
-          }
-          activeIcon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-              />
-            </svg>
-          }
+          icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>}
+          activeIcon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>}
         />
         <BottomNavigation.Item
           key="ticket"
           label="Vé của tôi"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
-              />
-            </svg>
-          }
-          activeIcon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
-              />
-            </svg>
-          }
+          icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" /></svg>}
+          activeIcon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" /></svg>}
         />
         <BottomNavigation.Item
           key="profile"
           label="Cá nhân"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-              />
-            </svg>
-          }
-          activeIcon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-              />
-            </svg>
-          }
+          icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>}
+          activeIcon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>}
         />
       </BottomNavigation>
     </Page>
