@@ -109,11 +109,11 @@ function Ticket() {
 
   return (
     <Page className="bg-white mb-12">
-      <Header
-        title="Vé của tôi"
-        leftButton={() => navigate("/")}
-        className="bg-green-400"
-      />
+      <Box className="fixed top-0 left-0 right-0 z-50 px-4 pt-6 pb-3 bg-green-400 flex justify-items-starts shadow-sm">
+        <Text.Title className="text-2xl font-bold text-black">
+          Vé của tôi
+        </Text.Title>
+      </Box>
 
       <Box className="pt-16 px-4">
         <Tabs value={activeTab} onChange={setActiveTab} className="mb-4 w-full">
