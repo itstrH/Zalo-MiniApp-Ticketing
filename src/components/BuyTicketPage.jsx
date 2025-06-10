@@ -40,7 +40,7 @@ const BuyTicketPage = () => {
       setTickets(ticketRes.data || []);
       setSelectedTicket(ticketRes.data?.[0] || null);
     } catch (err) {
-      console.error("Lỗi khi tải dữ liệu:", err);
+      console.error(err);
       snackbar.openSnackbar({
         text: "Lỗi khi tải dữ liệu sự kiện",
         type: "error",
@@ -145,7 +145,7 @@ const BuyTicketPage = () => {
   if (!event || tickets.length === 0) {
     return (
       <Box className="flex justify-center items-center h-screen">
-        <Text>Không tìm thấy sự kiện hoặc vé</Text>
+        <Text>Không tìm thấy sự kiện/vé</Text>
       </Box>
     );
   }
