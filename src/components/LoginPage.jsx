@@ -62,9 +62,9 @@ export default function LoginPage() {
 
   return (
     <Page className="bg-black text-white px-0">
-      <div className="w-full bg-green-500 text-black h-16 flex items-end px-4 pb-2">
+      <Box className="w-full bg-green-500 text-black h-16 flex items-end px-4 pb-2">
         <span className="text-base font-bold">Đăng nhập</span>
-      </div>
+      </Box>
       <div className="max-w-sm mx-auto px-6 pt-10">
         <Box className="mb-8 text-center">
           <img

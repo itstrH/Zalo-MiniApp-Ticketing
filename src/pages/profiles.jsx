@@ -1,15 +1,26 @@
 import { useState, useEffect } from "react";
-import { Page, Input, Button, Icon, Radio, Header, useSnackbar } from "zmp-ui";
+import {
+  Page,
+  Input,
+  Button,
+  Icon,
+  Radio,
+  Box,
+  useSnackbar,
+  Text,
+} from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import useAuthGuard from "../hooks/useAuthGuard";
 import axios from "axios";
 import Logo from "../static/ZaTicLogo.jpg";
+
 axios.defaults.withCredentials = true;
 
 function Profile() {
   useAuthGuard();
   const snackbar = useSnackbar();
   const navigate = useNavigate();
+
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -29,11 +40,7 @@ function Profile() {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        "http://localhost:3001/api/logout",
-        {},
-        { withCredentials: true }
-      );
+      await axios.post("http://localhost:3001/api/logout", {}, { withCredentials: true });
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       snackbar.openSnackbar({
@@ -53,12 +60,13 @@ function Profile() {
 
   return (
     <Page className="bg-black min-h-screen text-white p-5">
-      <Header
-        title="Cá nhân"
-        className="bg-green-400"
-        back={() => navigate("/")}
-      />
-      <div className="flex flex-col items-center mb-8 mt-16">
+      <Box className="fixed top-0 left-0 right-0 z-50 px-4 pt-6 pb-3 bg-green-400 flex shadow-sm">
+        <Text.Title className="text-2xl font-bold text-black">
+          Cá nhân
+        </Text.Title>
+      </Box>
+
+      <div className="flex flex-col items-center mb-8 mt-20">
         <img
           src={Logo}
           alt="avatar"
@@ -71,32 +79,25 @@ function Profile() {
 
       <div className="space-y-5">
         <Input
+          label="Họ và tên"
           type="text"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           className="bg-white text-black rounded-lg"
         />
 
-        <div className="flex items-center bg-white rounded-lg border border-gray-300 overflow-hidden">
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Số điện thoại"
-            className="flex-1 px-3 py-2 outline-none text-black text-sm bg-white"
-          />
-
-          {phone && (
-            <button
-              onClick={() => setPhone("")}
-              className="px-3 text-gray-500 hover:text-red-500"
-            >
-              <Icon icon="zi-close-circle" />
-            </button>
-          )}
-        </div>
+        <Input
+          label="Số điện thoại"
+          type="tel"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="Số điện thoại"
+          className="bg-white text-black rounded-lg"
+          clearable
+        />
 
         <Input
+          label="Email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -111,22 +112,12 @@ function Profile() {
           className="bg-white text-black rounded-lg"
         />
 
-        <div className="flex flex-col mt-2">
+        <div className="flex flex-col">
           <label className="mb-1 font-medium text-gray-300">Giới tính</label>
-          <Radio.Group
-            value={gender}
-            onChange={setGender}
-            className="space-x-6"
-          >
-            <Radio value="male" className="text-white">
-              Nam
-            </Radio>
-            <Radio value="female" className="text-white">
-              Nữ
-            </Radio>
-            <Radio value="other" className="text-white">
-              Khác
-            </Radio>
+          <Radio.Group value={gender} onChange={setGender} className="space-x-6">
+            <Radio value="male" className="text-white">Nam</Radio>
+            <Radio value="female" className="text-white">Nữ</Radio>
+            <Radio value="other" className="text-white">Khác</Radio>
           </Radio.Group>
         </div>
       </div>
@@ -139,7 +130,7 @@ function Profile() {
       </Button>
 
       <Button
-        className="mt-4 w-full bg-red-500 text-white rounded-full"
+        className="mt-4 w-full bg-red-500 text-white font-medium rounded-full"
         onClick={handleLogout}
       >
         Đăng xuất

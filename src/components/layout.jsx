@@ -17,7 +17,8 @@ import AddEvent from "./AddEvent";
 import LoginPage from "../components/LoginPage";
 import RegisterPage from "../components/RegisterPage";
 import AdminPage from "../components/AdminPage";
-
+import HotEventsPage from '../components/HotEventsPage';
+import ForYouPage from '../components/ForYouPage';
 
 const Layout = () => {
   const [theme, setTheme] = useState("light"); 
@@ -51,6 +52,8 @@ const Layout = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/hot-events" element={<HotEventsPage />} />
+            <Route path="/for-you" element={<ForYouPage />} />
 
           </AnimationRoutes>
         </ZMPRouter>
