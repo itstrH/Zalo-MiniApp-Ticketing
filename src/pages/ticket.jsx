@@ -41,7 +41,6 @@ function Ticket() {
         withCredentials: true,
       });
       setBookings(res.data);
-      setErrorMessage("");
     } catch (err) {
       console.error(err);
       setErrorMessage("Không thể lấy dữ liệu vé");
