@@ -182,8 +182,22 @@ function HomePage() {
 
       {/* section sự kiện sắp diễn ra */}
       <Box className="flex flex-col gap-6 pt-2 pb-20">
-        <Text.Title size="normal" className="mt-4 px-4">
-          📅 Sự kiện sắp diễn ra
+        <Text.Title size="normal" className="mt-4 px-4 flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+            />
+          </svg>
+          Sự kiện sắp diễn ra
         </Text.Title>
 
         <Box className="w-full px-4">
@@ -210,7 +224,28 @@ function HomePage() {
 
         {/* section sự kiện xu hướng */}
         <Box className="flex items-center justify-between mt-2 px-4">
-          <Text.Title size="normal">🔥 Sự kiện xu hướng</Text.Title>
+          <Text.Title className="flex items-center gap-2" size="normal">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"
+              />
+            </svg>
+            Sự kiện xu hướng
+          </Text.Title>
           <Text
             size="small"
             className="text-green-600 font-medium cursor-pointer"
@@ -235,7 +270,7 @@ function HomePage() {
                 <Text.Title size="xSmall" className="px-1 truncate">
                   {event.event_name}
                 </Text.Title>
-                <Text className="px-1 text-base text-gray-500 truncate font-bold flex gap-2 items-center">
+                <Text className="px-1 text-base text-black-500 truncate flex gap-2 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -253,7 +288,7 @@ function HomePage() {
                   </svg>
                   {new Date(event.event_date).toLocaleDateString()}
                 </Text>
-                <Text className="px-1 text-base text-gray-500 truncate font-bold flex gap-2 items-center">
+                <Text className="px-1 text-base text-black-500 truncate flex gap-2 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -303,7 +338,7 @@ function HomePage() {
                 <Text.Title size="xSmall" className="px-1 truncate">
                   {event.event_name}
                 </Text.Title>
-                <Text className="px-1 text-base text-gray-500 truncate font-bold flex gap-2 items-center">
+                <Text className="px-1 text-base text-black-500 truncate flex gap-2 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -321,7 +356,7 @@ function HomePage() {
                   </svg>
                   {new Date(event.event_date).toLocaleDateString()}
                 </Text>
-                <Text className="px-1 text-base text-gray-500 truncate font-bold flex gap-2 items-center">
+                <Text className="px-1 text-base text-black-500 truncate  flex gap-2 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
